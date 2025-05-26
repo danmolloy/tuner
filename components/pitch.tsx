@@ -1,8 +1,7 @@
-import { defaultFont } from "@/app/_layout";
 import { noteNames } from "@/lib/functions";
+import { globalStyles, spacing, typography } from "@/lib/themes";
 import { Picker } from "@react-native-picker/picker";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-import GuitarPitch from "./guitarPitch";
 
 export default function Pitch({note, tunerType, selectedString, setSelectedString, tunerMode, selectedOctave, selectedPitch, setSelectedPitch, setSelectedOctave}: {
   selectedOctave: number;
@@ -22,11 +21,8 @@ export default function Pitch({note, tunerType, selectedString, setSelectedStrin
   
   return (
     <View style={styles.container}>
-      {tunerType && <Text style={styles.tunerTypeText}>{tunerType.toUpperCase()}</Text>}
-        {(tunerType === "Guitar (Standard)" || tunerType === "Bass (Standard)")
-        ? <GuitarPitch selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
-               
-         : <View style={styles.pitchContainer}>
+        <Text>PITCH</Text>
+       <View style={styles.pitchContainer}>
          <Picker
           selectedValue={(tunerMode === "Target" || tunerMode === "Drone") ? selectedPitch : note?.note || "C"}
           onValueChange={(itemValue) => {
@@ -53,7 +49,7 @@ export default function Pitch({note, tunerType, selectedString, setSelectedStrin
             <Picker.Item key={oct} label={oct.toString()} value={oct} />
           ))}
         </Picker>
-      </View>}
+      </View>
     </View>
   )
 }
@@ -64,17 +60,13 @@ const styles = StyleSheet.create({
   height: 120,
   },
   container: {
-    borderWidth: 3,
-    borderColor: 'black',
-    borderRadius: 10,
-    flexDirection: 'column',
-    alignItems: 'center',
+    ...globalStyles.globalCard,
     width: Dimensions.get("window").width * 0.45,
-    paddingVertical: 8,
+    paddingVertical: spacing.md,
   },
   tunerTypeText: {
-    fontSize: 16,
-    marginBottom: 4,
+    fontSize: typography.fontSize.md,
+    marginBottom: spacing.sm,
   },
   pitchContainer: {
     flexDirection: 'row',
@@ -83,9 +75,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   noteText: {
-    fontSize: 48, 
-    fontFamily: defaultFont,
-    marginRight: 8, // Add spacing between note and picker
+    fontSize: typography.fontSize.xl, 
+    fontFamily: typography.fontFamily,
+    marginRight: spacing.md, // Add spacing between note and picker
   },
   octavePicker: {
     width: 80,
@@ -93,7 +85,7 @@ const styles = StyleSheet.create({
     transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }], // Optional: scale if too large
   },
   pickerItem: {
-    fontFamily: defaultFont,
+    fontFamily: typography.fontFamily,
     height: 120, // Match picker height
   },
 });

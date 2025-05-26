@@ -13,8 +13,8 @@
       "bundleIdentifier": "com.danmolloy.chromatictuner",
       "buildNumber": "1",
       "infoPlist": {
-      "NSMicrophoneUsageDescription": "This app uses the microphone to detect pitch."
-    }
+        "NSMicrophoneUsageDescription": "This app uses the microphone to detect pitch."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +23,9 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.danmolloy.chromatictuner",
-      "permissions": ["RECORD_AUDIO"]
+      "permissions": [
+        "RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -31,17 +33,18 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-  "expo-router",
-  [
-    "expo-splash-screen",
-    {
-      "image": "./assets/images/splash-icon.png",
-      "imageWidth": 200,
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    }
-  ]
-],
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-font"
+    ],
     "experiments": {
       "typedRoutes": true
     },

@@ -3,7 +3,6 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import Calibration from '@/components/calibration';
 import { tuningsList } from '@/components/guitarPitch';
 import Meter from '@/components/meter';
 import Pitch from '@/components/pitch';
@@ -11,13 +10,14 @@ import RecordingBtn from '@/components/recordingBtn';
 import { CALIBRATION_KEY } from '@/components/settings/calibration';
 import { TEMPERAMENT_KEY, TEMPERAMENT_ROOT } from '@/components/settings/temperament';
 import { TUNER_TYPE_KEY } from '@/components/settings/tunerSelect';
-import Temperament from '@/components/temperament';
+import StringSelect from '@/components/stringSelect';
+import TemperamentCalibration from '@/components/temperament';
 import { centsFromNote, freqToNote, noteToFreq } from '@/lib/functions';
+import { colors, spacing, typography } from '@/lib/themes';
 import { Buffer } from 'buffer';
 import { useFocusEffect } from 'expo-router';
 import { PitchDetector } from 'pitchy';
 import AudioRecord from 'react-native-audio-record';
-import { defaultFont } from '../_layout';
 
 const detector = PitchDetector.forFloat32Array(1024);
 export const globalBorderWidth = 2;
@@ -217,8 +217,8 @@ const detectFrequency = (buffer: any, sampleRate: any) => {
       <Pitch selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
         <View style={{flexDirection: 'column', justifyContent: 'space-evenly' }}>
 
-      <Calibration calibration={calibration} />
-      <Temperament temperament={temperament} temperamentRoot={temperamentRoot}/>
+      <StringSelect selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
+      <TemperamentCalibration calibration={calibration} temperament={temperament} temperamentRoot={temperamentRoot}/>
         </View>
       </View>
       <RecordingBtn tunerMode={tunerMode} setTunerMode={(arg) => setTunerMode(arg)} clarity={clarity} recording={recording} stopRecording={() => stopRecording()} startRecording={() => startRecording()}/>
@@ -231,23 +231,27 @@ const detectFrequency = (buffer: any, sampleRate: any) => {
 const styles = StyleSheet.create({
 
   indexContainer: {
-    fontFamily: defaultFont,
+    fontFamily: typography.fontFamily,
     flex: 1, 
-    padding: 32,
-    gap: 16,
+    gap: spacing.md,
     overflow: 'hidden',
-    backgroundColor: 'white',
+    backgroundColor: colors.primary,
+
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   titleContainer: {
     flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: 'white',
-    color: 'black',
+    backgroundColor: colors.primary,
+    color: colors.text,
   },
   stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
   },
   recBtnContainer: {
     flexDirection: "row",

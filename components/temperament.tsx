@@ -1,31 +1,26 @@
-import { defaultFont } from "@/app/_layout";
+import { globalStyles } from "@/lib/themes";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 
-export default function Temperament({temperament, temperamentRoot}: 
-  {temperament: string, temperamentRoot: string | null}) {
+export default function TemperamentCalibration({temperament, temperamentRoot, calibration}: 
+  {temperament: string, temperamentRoot: string | null, calibration: number}) {
   
   return (
     <View style={styles.temperamentContainer}>
-      <Text style={styles.tempText}>{temperament}{temperamentRoot && ` (${temperamentRoot})`} Temperament</Text>
+      <Text>A4 = {calibration}</Text>
+      <Text style={styles.tempText}>{temperament.toUpperCase()}{temperamentRoot && ` (${temperamentRoot})`} TEMPERAMENT</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   temperamentContainer: {
-    borderWidth: 3,
-        borderColor: 'black',
-        borderRadius: 10,
+      ...globalStyles.globalCard,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: "center",
         width: Dimensions.get("window").width * 0.45,
         flexGrow: 1
   },
   tempText: {
-    fontFamily: defaultFont,
-    fontSize: 18,
-    fontWeight: '700',
     textAlign: 'center'
   }
 })
