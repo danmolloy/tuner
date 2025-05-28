@@ -1,128 +1,83 @@
-import { defaultFont } from "@/app/_layout";
-import { noteNames } from "@/lib/functions";
-import { Picker } from "@react-native-picker/picker";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { BassStringNumber, bassTunings, GuitarStringNumber, guitarTunings } from "@/lib/gtrTunings";
+import { borderWidths, colors, radii, spacing, typography } from "@/lib/themes";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
-type NoteInfo = {
-  note: string;
-  octave: number;
+
+
+
+export type NoteInfo = { note: string; octave: number };
+type TuningMap = {
+  [key: number]: NoteInfo | undefined;
 };
 
-type GuitarStringNumber = 1 | 2 | 3 | 4 | 5 | 6;
-type BassStringNumber = 1 | 2 | 3 | 4;
-type Tuning = Record<number, NoteInfo>;
+const allTunings = [...guitarTunings, ...bassTunings];
 
-
-
-
-const guitarStandardStrings: Tuning = {
-  1: {
-    note: "E",
-    octave: 4,
-  },
-  2: {
-    note: "B",
-    octave: 3
-  },
-  3: {
-    note: "G",
-    octave: 3
-  },
-  4:{
-    note: "D",
-    octave: 3
-  },
-  5: {
-    note: "A",
-    octave: 2
-  },
-  6: {
-    note: "E",
-    octave: 2
-  },
-}
-
-const bassStandardStrings: Tuning = {
-  1: { note: "G", octave: 2 },
-  2: { note: "D", octave: 2 },
-  3: { note: "A", octave: 1 },
-  4: { note: "E", octave: 1 },
-};
-
-export const tuningsList: Record<string, Tuning>= {
-  "Guitar (Standard)": guitarStandardStrings,
-  "Bass (Standard)": bassStandardStrings
-}
-
-export default function GuitarPitch({note, tunerType, selectedString, setSelectedString, tunerMode, selectedOctave, selectedPitch, setSelectedPitch, setSelectedOctave}: {
+export default function GuitarPitch({
+  note,
+  tunerType,
+  selectedString,
+  setSelectedString,
+  tunerMode,
+  setSelectedPitch,
+  setSelectedOctave,
+}: {
   selectedOctave: number;
   selectedPitch: string;
   selectedString: number;
-  setSelectedString: (arg: number) => void
-  setSelectedPitch: (arg: string) => void
-  setSelectedOctave: (arg: number) => void
-  tunerMode: "Detect"|"Drone"|"Target"
-  tunerType: string |null
+  setSelectedString: (arg: number) => void;
+  setSelectedPitch: (arg: string) => void;
+  setSelectedOctave: (arg: number) => void;
+  tunerMode: "Detect" | "Drone" | "Target";
+  tunerType: string | null;
   note: {
     note: string;
     octave: number;
-  } | null
+  } | null;
 }) {
 
-  const getTuning = (type: string | null): Tuning => {
-  if (type === "Bass (Standard)") return bassStandardStrings;
-  return guitarStandardStrings;
+const getTuning = (type: string | null): TuningMap => {
+  return allTunings.find((t) => t.name === type)?.tuning || {};
 };
+
+  const currentTuning = getTuning(tunerType);
 
   return (
     <View style={styles.pitchContainer}>
-        <Picker
-          selectedValue={ selectedPitch  || "C"}
-          onValueChange={(itemValue) => {
-            /* return (tunerMode === "Target" || tunerMode === "Drone") ? setSelectedPitch(itemValue) : */ null
-          }}
-          style={styles.notePicker}
-          itemStyle={styles.pickerItem}
-          mode="dialog"
-        >
-          {noteNames.map((pitch) => (
-            <Picker.Item key={pitch} label={pitch} value={pitch} />
-          ))}
-        </Picker>
-        
-    
-   <Picker
-  selectedValue={selectedString || 1}
-  onValueChange={(itemValue: number) => {
-    if (tunerMode === "Target" || tunerMode === "Drone") {
-      const tuning = getTuning(tunerType);
-      const stringInfo = tuning[itemValue as GuitarStringNumber|BassStringNumber];
-      if (stringInfo) {
-        setSelectedString(itemValue);
-        setSelectedPitch(stringInfo.note);
-        setSelectedOctave(stringInfo.octave);
-      }
-    }
-  }}
-  style={styles.octavePicker}
-  itemStyle={styles.pickerItem}
-  mode="dropdown"
->
-  {Object.keys(getTuning(tunerType)).map((key) => (
-    <Picker.Item key={key} label={key} value={Number(key)} />
-  ))}
-</Picker>
-      </View>
-
-  )
+      
+        {Object.keys(currentTuning).map((string) => (
+          <Pressable
+                    style={{
+                      ...styles.string, 
+                      backgroundColor: selectedString === Number(string) 
+                      ? colors.textSecondary 
+                      : colors.backgroundLight,
+                      borderWidth: selectedString === Number(string)  ? borderWidths.sm : borderWidths.hairline,
+          
+                    }}
+                    key={string} 
+                    onPress={() => {
+                      if (tunerMode === "Target" || tunerMode === "Drone") {
+                        const tuning = getTuning(tunerType);
+                        const stringInfo = tuning[Number(string) as GuitarStringNumber|BassStringNumber];
+                        if (stringInfo) {
+                          setSelectedString(Number(string));
+                          setSelectedPitch(stringInfo.note);
+                          setSelectedOctave(stringInfo.octave);
+                        }
+}
+                      }}>
+                      <Text style={{fontWeight: /* (selectedOctave === oct|| (selectedOctave === null && note?.octave === oct)) ? '700' : */ '400' ,}}>
+                      {string.toString()}
+                      </Text>
+          
+                    </Pressable>
+        ))}
+    </View>
+  );
 }
 
-
 const styles = StyleSheet.create({
-  notePicker: {
-    width: 100, // Increased width
-  height: 120,
-  },
+
   container: {
     borderWidth: 3,
     borderColor: 'black',
@@ -132,6 +87,16 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width * 0.45,
     paddingVertical: 8,
   },
+  string: {
+      borderColor: colors.text,
+      padding: spacing.xs,
+      margin: 4,
+      width: 24,
+      height: 24,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: radii.xl
+    },
   tunerTypeText: {
     fontSize: 16,
     marginBottom: 4,
@@ -144,16 +109,11 @@ const styles = StyleSheet.create({
   },
   noteText: {
     fontSize: 48, 
-    fontFamily: defaultFont,
+    fontFamily: typography.fontFamily,
     marginRight: 8, // Add spacing between note and picker
   },
-  octavePicker: {
-    width: 80,
-    height: 120, // Give it enough height
-    transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }], // Optional: scale if too large
-  },
-  pickerItem: {
-    fontFamily: defaultFont,
-    height: 120, // Match picker height
-  },
+
+
 });
+
+

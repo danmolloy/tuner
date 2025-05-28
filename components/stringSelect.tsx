@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet, Text, View } from "react-native";
 import GuitarPitch from "./guitarPitch";
 
 export default function StringSelect({note, tunerType, selectedString, setSelectedString, tunerMode, selectedOctave, selectedPitch, setSelectedPitch, setSelectedOctave}: {
-  selectedOctave: number;
+  selectedOctave: number|null;
   selectedPitch: string;
   selectedString: number;
   setSelectedString: (arg: number) => void;
@@ -18,10 +18,9 @@ export default function StringSelect({note, tunerType, selectedString, setSelect
 }) {
   return (
     <View style={styles.calibrationContainer}>
-      {tunerType && <Text style={{}}>{tunerType.toUpperCase()}</Text>}
-      {(tunerType === "Guitar (Standard)" || tunerType === "Bass (Standard)")
-             && <GuitarPitch selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
-      }
+      {tunerType && tunerType !== "Chromatic" && <Text style={{}}>{tunerType.toUpperCase()}</Text>}
+      {tunerType !== "Chromatic" && <GuitarPitch selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave||4}/>}
+      
     </View>
   )
 }
@@ -32,9 +31,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',  
         alignItems: "center",
         justifyContent: 'center',
-        width: Dimensions.get("window").width * 0.45,
-        flexGrow: 1,
-        marginBottom:  Dimensions.get("window").width * .05
+        width: Dimensions.get("window").width * 0.90,
   },
   calibText: {
     

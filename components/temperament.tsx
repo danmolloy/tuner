@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         width: Dimensions.get("window").width * 0.45,
-        flexGrow: 1
+        height: 60
   },
   tempText: {
     textAlign: 'center'

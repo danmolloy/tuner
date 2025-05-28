@@ -1,3 +1,5 @@
+import { bassTunings, guitarTunings } from "@/lib/gtrTunings";
+import { globalStyles } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
@@ -21,24 +23,30 @@ export default function TunerSelect() {
   }, []);
 
   const handleSelect = async (value: string) => {
-    if (value === "Chromatic" || value === "Guitar (Standard)"|| value === "Bass (Standard)") {
+    if (value === "Chromatic" || guitarTunings.map(i => i.name).includes(value)|| bassTunings.map(i => i.name).includes(value)) {
       setTunerType(value);
       await AsyncStorage.setItem(TUNER_TYPE_KEY, value);
     } else {
-      Alert.alert("Invalid Value", "Temperament must be Equal or Just");
+      Alert.alert("Invalid Value", "Selected tuning invalid.");
     }
   };
   return (
-    <View>
-      <Text>Tuner Type</Text>
+    <View style={styles.container}>
+      <Text style={styles.label}>Tuner Type</Text>
       <Picker
         selectedValue={tunerType}
         onValueChange={(itemValue) => handleSelect(itemValue)}
         style={styles.picker}
       >
         <Picker.Item label="Chromatic" value="Chromatic" />
-        <Picker.Item label="Guitar (Standard)" value="Guitar (Standard)" />
-                <Picker.Item label="Bass (Standard)" value="Bass (Standard)" />
+        {guitarTunings.map(i => (
+          <Picker.Item key={i.id} label={i.name} value={i.name} />
+
+        ))}
+        {bassTunings.map(i => (
+          <Picker.Item key={i.id} label={i.name} value={i.name} />
+
+        ))}
 
       </Picker>
     </View>
@@ -48,15 +56,14 @@ export default function TunerSelect() {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 16,
+   ...globalStyles.settingsContainer
   },
   label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 8,
+    ...globalStyles.settingsLabel
   },
   picker: {
     backgroundColor: "#f0f0f0",
     borderRadius: 8,
+
   },
 });

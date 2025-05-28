@@ -32,7 +32,6 @@ export const typography = {
     md: 16,
     lg: 24,
     xl: 36,
-    
   },
 };
 
@@ -77,5 +76,25 @@ export const globalStyles = StyleSheet.create({
         borderRadius: radii.lg,
         flexDirection: 'column',
     alignItems: 'center',
+  },
+  pageView: {
+    padding: spacing.lg,
+    marginBottom: 50,
+        backgroundColor: 'white',
+    
+  },
+  headerText: {
+    fontSize: typography.fontSize.xl,
+    fontWeight: '700',
+    marginBottom: 16
+  },
+  settingsContainer: {
+     marginVertical: 16,
+    paddingHorizontal: 16,
+  },
+  settingsLabel: {
+    fontSize: typography.fontSize.md,
+    fontWeight: '500',
+    marginVertical: 12,
   }
 })

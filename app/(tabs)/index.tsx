@@ -3,9 +3,8 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { tuningsList } from '@/components/guitarPitch';
 import Meter from '@/components/meter';
-import Pitch from '@/components/pitch';
+import ModeSelect from '@/components/modeSelect';
 import RecordingBtn from '@/components/recordingBtn';
 import { CALIBRATION_KEY } from '@/components/settings/calibration';
 import { TEMPERAMENT_KEY, TEMPERAMENT_ROOT } from '@/components/settings/temperament';
@@ -13,6 +12,8 @@ import { TUNER_TYPE_KEY } from '@/components/settings/tunerSelect';
 import StringSelect from '@/components/stringSelect';
 import TemperamentCalibration from '@/components/temperament';
 import { centsFromNote, freqToNote, noteToFreq } from '@/lib/functions';
+import { bassTunings, guitarTunings, StringNumber } from '@/lib/gtrTunings';
+import { usePurchase } from '@/lib/purchaseProvider';
 import { colors, spacing, typography } from '@/lib/themes';
 import { Buffer } from 'buffer';
 import { useFocusEffect } from 'expo-router';
@@ -34,9 +35,10 @@ export default function HomeScreen() {
   const [tunerType, setTunerType] = useState<string|null>(null)
   const [tunerMode, setTunerMode] = useState<"Detect"|"Target"|"Drone">("Detect")
   const [selectedPitch, setSelectedPitch] = useState("C")
-  const [selectedOctave, setSelectedOctave] = useState(4)
+  const [selectedOctave, setSelectedOctave] = useState<number|null>(null)
   const [selectedString, setSelectedString] = useState<number>(1)
-
+  const { isProUser } = usePurchase();
+  
   const getData = async () => {
   try {
     const savedCalibration = await AsyncStorage.getItem(CALIBRATION_KEY);
@@ -57,10 +59,17 @@ export default function HomeScreen() {
     if (savedTunerType) {
       setTunerType(savedTunerType)
       setSelectedString(1);
-      setSelectedOctave(tuningsList[savedTunerType][1].octave)
-      setSelectedPitch(tuningsList[savedTunerType][1].note)
+      const tuning = [...guitarTunings, ...bassTunings].find(i => i.name === savedTunerType)
+      setSelectedOctave(tuning?.tuning[1].octave!)
+      setSelectedPitch(tuning?.tuning[1].note!)
+
+      if (savedTunerType === "Chromatic") {
+              setTunerMode("Detect")
+
+      }
     } else {
       setTunerType("Chromatic")
+      setTunerMode("Detect")
     }
   } catch (e) {
     // error reading value
@@ -103,30 +112,39 @@ export default function HomeScreen() {
   useEffect(() => {
     if (frequency && note) {
       if (tunerMode === "Detect" && tunerType !== "Chromatic") {
-        const currentTuning = tuningsList[tunerType ?? "Guitar (Standard)"];
+        const tuningEntry = [...guitarTunings, ...bassTunings].find(i => i.name === tunerType)
+  || guitarTunings[0];
+
+const currentTuning = tuningEntry.tuning;
       
-      let closestString = 1;
-      let smallestDiff = Infinity;
 
-      for (const stringNumber in currentTuning) {
-        const { note: stdNote, octave: stdOctave } = currentTuning[+stringNumber];
-        const stdFreq = noteToFreq(stdNote, stdOctave, calibration, temperament);
-        const diff = Math.abs(frequency - stdFreq);
+    let closestString = 1;
+let smallestDiff = Infinity;
 
-        if (diff < smallestDiff) {
-          smallestDiff = diff;
-          closestString = +stringNumber;
-        }
-      }
+for (const stringNumber in currentTuning) {
+const stringInfo = currentTuning[Number(stringNumber) as StringNumber];
 
-      const matched = currentTuning[closestString];
-      setSelectedString(closestString)
-      setSelectedPitch(matched.note);
-      setSelectedOctave(matched.octave);
-      
+  if (stringInfo) {
+    const { note: stdNote, octave: stdOctave } = stringInfo;
+    const stdFreq = noteToFreq(stdNote, stdOctave, calibration, temperament);
+    const diff = Math.abs(frequency - stdFreq);
+
+    if (diff < smallestDiff) {
+      smallestDiff = diff;
+      closestString = Number(stringNumber);
+    }
+  }
+}
+
+const matched = currentTuning[closestString as StringNumber];
+if (matched) {
+  setSelectedString(closestString);
+  setSelectedPitch(matched.note);
+  setSelectedOctave(matched.octave);
+}
       } 
        if (tunerMode === "Target") {
-         const targetFreq = noteToFreq(selectedPitch, selectedOctave, calibration, temperament, );
+         const targetFreq = noteToFreq(selectedPitch, selectedOctave||4, calibration, temperament, );
          const rawCents = centsFromNote(frequency, targetFreq);
          setSmoothedCents(prev => {
           if (prev === null) return rawCents;
@@ -186,9 +204,12 @@ export default function HomeScreen() {
 
 const detectFrequency = (buffer: any, sampleRate: any) => {
   const [pitch, clarity] = detector.findPitch(buffer, sampleRate);
+  
+  const minFreq = selectedOctave !== null ? noteToFreq('B', selectedOctave - 1, calibration, temperament) : 30;  
+  const maxFreq = selectedOctave !== null ? noteToFreq('C', selectedOctave + 1, calibration, temperament) : 2000;
 
   setClarity(clarity);
-  if (clarity > 0.9) {
+  if (clarity > 0.9 && pitch > minFreq && pitch < maxFreq) {
     setFrequency(pitch);
   } else {
     setFrequency(null);
@@ -208,23 +229,18 @@ const detectFrequency = (buffer: any, sampleRate: any) => {
       style={styles.indexContainer}
       >
        
-      <View style={styles.titleContainer}>
+      <Meter tunerType={tunerType} clarity={clarity} note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)}  selectedOctave={selectedOctave}  cents={Math.round(smoothedCents || 0)} />
       
-      <Meter cents={Math.round(smoothedCents || 0)} />
-      
-        <View style={{ marginTop: Dimensions.get("window").width * 0.05, width: Dimensions.get("window").width * 0.95, flexDirection: 'row', justifyContent: 'space-between'}}>
-
-      <Pitch selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
-        <View style={{flexDirection: 'column', justifyContent: 'space-evenly' }}>
-
-      <StringSelect selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
+          <StringSelect selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
+        <View style={{ marginTop: Dimensions.get("window").width * 0.05, width: Dimensions.get("window").width * 0.95, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: "center"}}>
+{/*       <Pitch note={note}  tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
+ */}        
       <TemperamentCalibration calibration={calibration} temperament={temperament} temperamentRoot={temperamentRoot}/>
-        </View>
+ <ModeSelect tunerType={tunerType} tunerMode={tunerMode} setTunerMode={(arg) => setTunerMode(arg)} stopRecording={() => stopRecording()} />
       </View>
-      <RecordingBtn tunerMode={tunerMode} setTunerMode={(arg) => setTunerMode(arg)} clarity={clarity} recording={recording} stopRecording={() => stopRecording()} startRecording={() => startRecording()}/>
+      <RecordingBtn stopRecording={() => stopRecording()} recording={recording}  startRecording={() => startRecording()}/>
 </View>
       
-    </View>
   );
 }
 
@@ -238,17 +254,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
 
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingTop: spacing.xl,
+    padding: spacing.sm
   },
-  titleContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 8,
-    backgroundColor: colors.primary,
-    color: colors.text,
-  },
+
   stepContainer: {
     gap: spacing.sm,
     marginBottom: spacing.sm,

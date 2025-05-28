@@ -6,8 +6,8 @@ import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { typography } from '@/lib/themes';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { defaultFont } from '../_layout';
 
 
 export default function TabLayout() {
@@ -19,7 +19,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         headerTitleStyle: {
-          fontFamily: defaultFont
+          fontFamily: typography.fontFamily
         },
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
@@ -41,6 +41,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
+          
           title: 'Settings',
           tabBarIcon: ({ color }) => <FontAwesome name="cog" size={28} color={color} />,
         }}

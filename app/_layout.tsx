@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { PurchaseProvider } from '@/lib/purchaseProvider';
 import { useFonts } from '@expo-google-fonts/roboto';
 import { Roboto_100Thin } from '@expo-google-fonts/roboto/100Thin';
 import { Roboto_100Thin_Italic } from '@expo-google-fonts/roboto/100Thin_Italic';
@@ -47,6 +48,8 @@ export default function RootLayout() {
     Roboto_900Black_Italic
   });
 
+
+
   
   if (!fontsLoaded) {
     // Async font loading only occurs in development.
@@ -54,6 +57,7 @@ export default function RootLayout() {
   }
 
   return (
+    <PurchaseProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -61,5 +65,6 @@ export default function RootLayout() {
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
+    </PurchaseProvider>
   );
 }

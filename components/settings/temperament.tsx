@@ -1,3 +1,4 @@
+import { globalStyles } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
@@ -34,8 +35,8 @@ export default function TemperamentSelect() {
   };
 
   return (
-    <View>
-      <Text>Temperament</Text>
+    <View style={styles.container}>
+      <Text style={styles.label}>Temperament</Text>
       <Picker
         selectedValue={temperament}
         onValueChange={(itemValue) => handleSelect(itemValue)}
@@ -50,12 +51,10 @@ export default function TemperamentSelect() {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 16,
+     ...globalStyles.settingsContainer
   },
   label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 8,
+    ...globalStyles.settingsLabel
   },
   picker: {
     backgroundColor: "#f0f0f0",

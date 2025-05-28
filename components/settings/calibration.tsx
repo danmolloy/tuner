@@ -1,3 +1,4 @@
+import { globalStyles } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
@@ -27,8 +28,8 @@ export default function CalibrationInput() {
   };
 
   return (
-    <View>
-      <Text>Calibration (Hz)</Text>
+    <View style={styles.container}>
+      <Text style={styles.label}>Calibration (Hz)</Text>
       <TextInput
         style={styles.input}
         keyboardType="numeric"
@@ -48,10 +49,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   label: {
-    fontSize: 16,
-    marginBottom: 6,
-    fontWeight: '500',
-    color: '#333',
+    ...globalStyles.settingsLabel
   },
   input: {
     borderWidth: 1,

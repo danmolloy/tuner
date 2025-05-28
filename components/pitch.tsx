@@ -3,15 +3,12 @@ import { globalStyles, spacing, typography } from "@/lib/themes";
 import { Picker } from "@react-native-picker/picker";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 
-export default function Pitch({note, tunerType, selectedString, setSelectedString, tunerMode, selectedOctave, selectedPitch, setSelectedPitch, setSelectedOctave}: {
-  selectedOctave: number;
+export default function Pitch({note,  tunerMode, selectedOctave, selectedPitch, setSelectedPitch, setSelectedOctave}: {
+  selectedOctave: number|null;
   selectedPitch: string;
-  selectedString: number;
-  setSelectedString: (arg: number) => void;
   setSelectedPitch: (arg: string) => void
   setSelectedOctave: (arg: number) => void
   tunerMode: "Detect"|"Drone"|"Target"
-  tunerType: string |null
   note: {
     note: string;
     octave: number;
@@ -21,7 +18,7 @@ export default function Pitch({note, tunerType, selectedString, setSelectedStrin
   
   return (
     <View style={styles.container}>
-        <Text>PITCH</Text>
+        <Text>PITCH SELECT</Text>
        <View style={styles.pitchContainer}>
          <Picker
           selectedValue={(tunerMode === "Target" || tunerMode === "Drone") ? selectedPitch : note?.note || "C"}
@@ -36,10 +33,10 @@ export default function Pitch({note, tunerType, selectedString, setSelectedStrin
             <Picker.Item key={pitch} label={pitch} value={pitch} />
           ))}
         </Picker>
-        <Picker
+       {/*  <Picker
           selectedValue={(tunerMode === "Target" || tunerMode === "Drone") ? selectedOctave : note?.octave ?? 4}
           onValueChange={(itemValue) => {
-            return (tunerMode === "Target" || tunerMode === "Drone") ? setSelectedOctave(itemValue) : null
+            return (tunerMode === "Target" || tunerMode === "Drone") ? setSelectedOctave(itemValue||4) : null
           }}
           style={styles.octavePicker}
           itemStyle={styles.pickerItem}
@@ -48,7 +45,7 @@ export default function Pitch({note, tunerType, selectedString, setSelectedStrin
           {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((oct) => (
             <Picker.Item key={oct} label={oct.toString()} value={oct} />
           ))}
-        </Picker>
+        </Picker> */}
       </View>
     </View>
   )

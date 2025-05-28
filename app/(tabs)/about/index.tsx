@@ -1,0 +1,56 @@
+import { borderWidths, colors, globalStyles, radii, spacing, typography } from '@/lib/themes';
+import { Link } from 'expo-router';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+
+export const unstable_settings = {
+  initialRouteName: 'index',
+};
+
+export const options = {
+  headerShown: false,
+};
+
+export default function AboutIndex() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headerText}>About</Text>
+      <Link style={styles.card} href="/about/how-to-use" asChild>
+        <TouchableOpacity>
+          <Text style={styles.cardLabel}>Using This App</Text>
+        </TouchableOpacity>
+      </Link>
+
+      <Link style={styles.card} href="/about/tuning-basics" asChild>
+        <TouchableOpacity>
+          <Text style={styles.cardLabel}>Tuning Basics</Text>
+        </TouchableOpacity>
+      </Link>
+      <Link style={styles.card} href="/about/tuning-history" asChild>
+        <TouchableOpacity>
+          <Text style={styles.cardLabel}>Tuning History</Text>
+        </TouchableOpacity>
+      </Link>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    ...globalStyles.pageView
+  },
+  headerText: {
+    ...globalStyles.headerText
+  },
+  card: {
+    borderColor: colors.text,
+    borderWidth: borderWidths.sm,
+    margin: spacing.sm,
+    padding: spacing.sm,
+    borderRadius: radii.sm,
+  },
+  cardLabel: {
+    fontSize: typography.fontSize.lg,
+    fontWeight: '600'
+  }
+})
