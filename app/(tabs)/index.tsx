@@ -1,10 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Audio } from 'expo-av';
 import { Dimensions, StyleSheet, View } from 'react-native';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import DroneSynth from '@/components/drone';
 import Meter from '@/components/meter';
 import ModeSelect from '@/components/modeSelect';
+import Pitch from '@/components/pitch';
 import RecordingBtn from '@/components/recordingBtn';
 import { CALIBRATION_KEY } from '@/components/settings/calibration';
 import { TEMPERAMENT_KEY, TEMPERAMENT_ROOT } from '@/components/settings/temperament';
@@ -37,6 +40,7 @@ export default function HomeScreen() {
   const [selectedPitch, setSelectedPitch] = useState("C")
   const [selectedOctave, setSelectedOctave] = useState<number|null>(null)
   const [selectedString, setSelectedString] = useState<number>(1)
+  const [playDrone, setPlayDrone] = useState<boolean>(false)
   const { isProUser } = usePurchase();
   
   const getData = async () => {
@@ -76,6 +80,14 @@ export default function HomeScreen() {
   }
 };
 
+useEffect(() => {
+  Audio.setAudioModeAsync({
+    playsInSilentModeIOS: true, // Allow sound even if iOS is muted
+    staysActiveInBackground: false,
+    shouldDuckAndroid: true,
+    playThroughEarpieceAndroid: false,
+  });
+}, []);
 
 
    useFocusEffect(
@@ -228,17 +240,17 @@ const detectFrequency = (buffer: any, sampleRate: any) => {
     <View
       style={styles.indexContainer}
       >
-       
-      <Meter tunerType={tunerType} clarity={clarity} note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)}  selectedOctave={selectedOctave}  cents={Math.round(smoothedCents || 0)} />
-      
-          <StringSelect selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
+      <Meter note={note}  setSelectedPitch={(arg) => setSelectedPitch(arg)}  selectedPitch={selectedPitch} tunerType={tunerType} clarity={clarity}  setSelectedOctave={(arg) => setSelectedOctave(arg)}  selectedOctave={selectedOctave}  cents={Math.round(smoothedCents || 0)} />
+      <Pitch note={note}  setSelectedPitch={(arg) => setSelectedPitch(arg)}  selectedPitch={selectedPitch} />
+           <StringSelect selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
         <View style={{ marginTop: Dimensions.get("window").width * 0.05, width: Dimensions.get("window").width * 0.95, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: "center"}}>
 {/*       <Pitch note={note}  tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave}/>
  */}        
       <TemperamentCalibration calibration={calibration} temperament={temperament} temperamentRoot={temperamentRoot}/>
- <ModeSelect tunerType={tunerType} tunerMode={tunerMode} setTunerMode={(arg) => setTunerMode(arg)} stopRecording={() => stopRecording()} />
+ <ModeSelect tunerType={tunerType} tunerMode={tunerMode} setTunerMode={(arg) => {setTunerMode(arg); arg !== "Target" && setPlayDrone(false)}} stopRecording={() => stopRecording()} />
       </View>
-      <RecordingBtn stopRecording={() => stopRecording()} recording={recording}  startRecording={() => startRecording()}/>
+      <RecordingBtn tunerMode={tunerMode} playDrone={playDrone} setPlayDrone={() => {setPlayDrone(!playDrone)}} stopRecording={() => stopRecording()} recording={recording}  startRecording={() => startRecording()}/>
+ {(tunerMode === "Drone" && playDrone === true)&& <DroneSynth note={`${selectedPitch}${selectedOctave}`}/>}
 </View>
       
   );
@@ -252,7 +264,7 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     overflow: 'hidden',
     backgroundColor: colors.primary,
-
+zIndex: 0,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',

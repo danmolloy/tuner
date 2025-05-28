@@ -17,7 +17,7 @@ import Octave from "./octave";
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export default function Meter({ cents, setSelectedOctave, selectedOctave, note, clarity, tunerType }: { 
+export default function Meter({ cents, setSelectedOctave, selectedOctave, note, clarity, tunerType,selectedPitch, setSelectedPitch }: { 
   tunerType: string|null
   clarity: number|null;
   cents: number, 
@@ -25,6 +25,8 @@ export default function Meter({ cents, setSelectedOctave, selectedOctave, note, 
     note: string;
     octave: number;
   } | null
+  selectedPitch: string|null
+  setSelectedPitch: (arg: string) => void
   setSelectedOctave: (arg: number| null) => void
   selectedOctave: number|null }) {
   const size = Dimensions.get("screen").width * 0.6;
