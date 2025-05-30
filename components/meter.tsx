@@ -1,5 +1,6 @@
+import { centsFromNote, noteToFreq } from "@/lib/functions";
+import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { colors, globalStyles, spacing, typography } from "@/lib/themes";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useEffect } from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Animated, {
@@ -17,18 +18,40 @@ import Octave from "./octave";
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export default function Meter({ cents, setSelectedOctave, selectedOctave, note, clarity, tunerType,selectedPitch, setSelectedPitch }: { 
-  tunerType: string|null
+export default function Meter({ setSelectedOctave, selectedOctave, note, clarity }: { 
   clarity: number|null;
-  cents: number, 
   note: {
     note: string;
     octave: number;
+    detectedFrequency: number
   } | null
   selectedPitch: string|null
   setSelectedPitch: (arg: string) => void
   setSelectedOctave: (arg: number| null) => void
   selectedOctave: number|null }) {
+
+    const { tunerType, temperament, calibration, temperamentRoot } = useAppSettings();
+
+
+
+const cents = (() => {
+  if (!note || note.detectedFrequency == null) return 0;
+  try {
+    const targetFreq = noteToFreq({
+      note: note.note,
+      octave: note.octave,
+      calibration,
+      temperament,
+      temperamentRoot: temperament !== "Equal" ? temperamentRoot ?? "C" : "C",
+    });
+    return centsFromNote(note.detectedFrequency, targetFreq);
+  } catch (e) {
+    console.warn("Error calculating cents:", e);
+    return 0;
+  }
+})();
+
+
   const size = Dimensions.get("screen").width * 0.6;
   const radius = size / 2 - 20;
   const centre = size / 2;
@@ -94,10 +117,10 @@ useEffect(() => {
   );
 }, []);
 
-  useEffect(() => {
-    const clamped = Math.max(-maxCents, Math.min(maxCents, cents));
-    animatedCents.value = withTiming(clamped, { duration: 300 });
-  }, [cents]);
+useEffect(() => {
+  const clamped = Math.max(-maxCents, Math.min(maxCents, cents));
+  animatedCents.value = withTiming(clamped, { duration: 300 });
+}, [note]);
 
   
 
@@ -126,20 +149,10 @@ useEffect(() => {
       </Svg>
 
       <View style={[StyleSheet.absoluteFill, styles.textContainer]}>
-        <Text style={styles.centsText}>{Math.round(cents) || 0}</Text>
+<Text style={styles.centsText}>{Math.round(cents) || 0}</Text>
         <Text style={styles.centsLabel}>CENTS</Text>
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: "center"}}>
-          <Text style={styles.note}>{note?.note[0]}</Text>
-          <Text>
-          {note?.note && (
-  note.note.includes('#') ? (
-    <MaterialCommunityIcons name="music-accidental-sharp" size={24} color="black" />
-  ) : note.note.includes('b') ? (
-    <MaterialCommunityIcons name="music-accidental-flat" size={24} color="black" />
-  ) : (
-    <MaterialCommunityIcons name="music-accidental-natural" size={24} color="black" />
-  )
-)}        </Text></View>
+         </View>
       </View>
       <View style={{
         alignSelf: "flex-end",
@@ -166,10 +179,10 @@ const styles = StyleSheet.create({
   textContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: -50
+    marginTop: 0
   },
   centsText: {
-    fontSize: typography.fontSize.md,
+    fontSize: typography.fontSize.xl,
     fontWeight: "500",
   },
   centsLabel: {

@@ -1,4 +1,5 @@
 import { noteNames } from "@/lib/functions";
+import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { borderWidths, colors, radii } from "@/lib/themes";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useEffect, useRef, useState } from "react";
@@ -26,7 +27,6 @@ export default function Pitch({
   selectedString,
   setSelectedString,
   tunerMode,
-  tunerType,
   setSelectedOctave,
   selectedOctave,
   selectedPitch
@@ -37,7 +37,6 @@ export default function Pitch({
   setSelectedString: (arg: number) => void;
   setSelectedOctave: (arg: number) => void;
   tunerMode: "Detect"|"Drone"|"Target";
-  tunerType: string |null;
   setSelectedPitch: (arg: string) => void;
   note: {
     note: string;
@@ -49,6 +48,8 @@ export default function Pitch({
   const [data] = useState(() => Array(BUFFER_MULTIPLIER).fill(noteNames).flat());
   const currentIndex = useRef(0);
 
+  const { tunerType } = useAppSettings();
+  
   const displayedPitch = tunerMode === "Detect" && note?.note ? note.note : selectedPitch;
 
   // Calculate initial position in the middle of the buffered data

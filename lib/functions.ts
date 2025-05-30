@@ -41,6 +41,7 @@ export function freqToNote(frequency: number, calibration: number, temperament: 
 ): {
   note: string
   octave: number
+  detectedFrequency: number
 } {
   const A4 = calibration;
   if (temperament !== 'Equal' && temperamentRoot !== undefined) {
@@ -67,6 +68,7 @@ export function freqToNote(frequency: number, calibration: number, temperament: 
     return {
       note: closestNote,
       octave: closestOctave,
+      detectedFrequency: frequency
     };
   }
 
@@ -79,7 +81,9 @@ export function freqToNote(frequency: number, calibration: number, temperament: 
 
   return { 
     note: noteName, 
-    octave: octave
+    octave: octave,
+          detectedFrequency: frequency
+
   };
 }
 
@@ -262,3 +266,4 @@ function getWerckmeisterRatiosForKey(key: string): Record<string, number> {
 
   return normalized;
 }
+

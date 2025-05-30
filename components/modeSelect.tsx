@@ -1,18 +1,19 @@
+import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { globalStyles } from "@/lib/themes";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 
 export default function ModeSelect({ 
-  tunerType,
   stopRecording,  
   tunerMode, 
   setTunerMode}: {
-    tunerType: string|null
     tunerMode: "Detect"|"Target"|"Drone";
     setTunerMode: (arg: "Detect"|"Target"|"Drone") => void; 
     stopRecording: () => void;
 }) {
+  const { tunerType } = useAppSettings();
+
   return (
     <View style={styles.iconContainer}>
       <Pressable onPress={() => setTunerMode("Detect")}>

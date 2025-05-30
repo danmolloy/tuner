@@ -16,9 +16,12 @@ export default function UpgradePage() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headContainer}>
-      <View style={styles.iconContainer}>
-        {/* Icon placeholder */}
-      </View>
+      {/* <View style={styles.iconContainer}>
+       
+       
+
+
+      </View> */}
       <Text style={styles.pageHeader}>Get Premium</Text>
         <Text style={{textAlign: 'center', paddingHorizontal: 24, color: colors.backgroundLight}}>Unlock full access to all of our features with a one-off purchase.</Text>
       </View>
