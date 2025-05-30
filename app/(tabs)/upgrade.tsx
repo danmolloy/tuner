@@ -1,4 +1,4 @@
-import { borderWidths, globalStyles, radii, spacing, typography } from '@/lib/themes';
+import { borderWidths, colors, globalStyles, radii, spacing, typography } from '@/lib/themes';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
@@ -7,7 +7,7 @@ const premiumList: string[] = [
   "Alternative temperaments",
   "Alternate guitar and bass tunings",
   "Drone mode",
-  "Alterative meters",
+  "Alternative meters",
   "Alternative colour schemes",
   "Interactive about section",
 ]
@@ -15,7 +15,13 @@ const premiumList: string[] = [
 export default function UpgradePage() {
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.pageHeader}>Premium</Text>
+      <View style={styles.headContainer}>
+      <View style={styles.iconContainer}>
+        {/* Icon placeholder */}
+      </View>
+      <Text style={styles.pageHeader}>Get Premium</Text>
+        <Text style={{textAlign: 'center', paddingHorizontal: 24, color: colors.backgroundLight}}>Unlock full access to all of our features with a one-off purchase.</Text>
+      </View>
       <View style={styles.listContainer}>
         {premiumList.map((text, index) => (
           <View key={index} style={styles.listItem}>
@@ -26,7 +32,7 @@ export default function UpgradePage() {
       </View>
       <Pressable style={styles.upgradeBtn}>
         <Text style={styles.upgradeText}>
-        Upgrade
+        Continue
         </Text>
         </Pressable>
         <Pressable style={styles.restoreBtn}>
@@ -40,10 +46,28 @@ export default function UpgradePage() {
 
 const styles = StyleSheet.create({
   container: {
-    ...globalStyles.pageView
+    ...globalStyles.pageView,
+    flexDirection: "column",
+    backgroundColor: colors.primary
+  },
+  headContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+      marginVertical: 16,
+
+  },
+  iconContainer: {
+    borderColor: 'black',
+    borderWidth: 1,
+    width: 100,
+    height: 100,
+   
   },
 pageHeader: {
-  ...globalStyles.headerText
+  ...globalStyles.headerText,
+  marginTop: 16,
+  color: colors.backgroundLight
 },
   listItem: {
     flexDirection: 'row',
@@ -52,35 +76,37 @@ pageHeader: {
     alignItems: 'center',
   },
   upgradeBtn: {
-    borderColor: 'black',
-    borderWidth: borderWidths.md,
     alignItems: 'center',
     justifyContent: 'center',
     padding: spacing.sm,
     margin: spacing.sm,
-    borderRadius: radii.sm
+    borderRadius: radii.md,
+    backgroundColor: colors.secondary,
   },
   upgradeText: {
     fontSize: typography.fontSize.lg,
-    fontWeight: "600"
+    fontWeight: "600",
+    color: 'white'
   },
   restoreBtn: {
      alignItems: 'center',
     justifyContent: 'center',
     padding: spacing.sm,
     margin: spacing.sm,
-    borderRadius: radii.sm
+    borderRadius: radii.sm,
   },
   restoreText: {
+    color: colors.backgroundLight
 
   },
   listContainer: {
-     borderColor: 'black',
-    borderWidth: borderWidths.md,
+     borderColor: 'gray',
+    borderWidth: borderWidths.sm,
      padding: spacing.sm,
     margin: spacing.sm,
-    borderRadius: radii.sm,
+    borderRadius: radii.md,
     flexDirection: 'column',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    backgroundColor: colors.backgroundLight
   }
 })

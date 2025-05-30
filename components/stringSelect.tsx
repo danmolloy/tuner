@@ -1,10 +1,9 @@
-import { globalStyles } from "@/lib/themes";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import GuitarPitch from "./guitarPitch";
 
 export default function StringSelect({note, tunerType, selectedString, setSelectedString, tunerMode, selectedOctave, selectedPitch, setSelectedPitch, setSelectedOctave}: {
   selectedOctave: number|null;
-  selectedPitch: string;
+  selectedPitch: string|null;
   selectedString: number;
   setSelectedString: (arg: number) => void;
   setSelectedPitch: (arg: string) => void
@@ -18,7 +17,7 @@ export default function StringSelect({note, tunerType, selectedString, setSelect
 }) {
   return (
     <View style={styles.calibrationContainer}>
-      {tunerType && tunerType !== "Chromatic" && <Text style={{}}>{tunerType.toUpperCase()}</Text>}
+      {tunerType && tunerType !== "Chromatic" && <Text style={styles.calibText}>{tunerType.toUpperCase()}</Text>}
       {tunerType !== "Chromatic" && <GuitarPitch selectedString={selectedString} setSelectedString={(arg: number) => setSelectedString(arg)} note={note} tunerType={tunerType} tunerMode={tunerMode} setSelectedPitch={(arg) => setSelectedPitch(arg)} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedPitch={selectedPitch} selectedOctave={selectedOctave||4}/>}
       
     </View>
@@ -27,15 +26,15 @@ export default function StringSelect({note, tunerType, selectedString, setSelect
 
 const styles = StyleSheet.create({
   calibrationContainer: {
-      ...globalStyles.globalCard,
         flexDirection: 'column',  
         alignItems: "center",
         justifyContent: 'center',
-        width: Dimensions.get("window").width * 0.90,
+        flexWrap: 'wrap'
   },
   calibText: {
-    
-        fontSize: 26,
+            
+
+        fontSize: 12,
         fontWeight: '500',
         textAlign: 'center'
   }

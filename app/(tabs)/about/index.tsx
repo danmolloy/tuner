@@ -1,6 +1,6 @@
 import { borderWidths, colors, globalStyles, radii, spacing, typography } from '@/lib/themes';
 import { Link } from 'expo-router';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 export const unstable_settings = {
@@ -37,20 +37,27 @@ export default function AboutIndex() {
 
 const styles = StyleSheet.create({
   container: {
-    ...globalStyles.pageView
+    ...globalStyles.pageView,
+    height: Dimensions.get("screen").height - 50,
+    backgroundColor: colors.primary
   },
   headerText: {
-    ...globalStyles.headerText
+    ...globalStyles.headerText,
+    color: colors.backgroundLight
   },
   card: {
-    borderColor: colors.text,
+    borderColor: colors.backgroundLight,
+    backgroundColor: colors.backgroundLight,
     borderWidth: borderWidths.sm,
     margin: spacing.sm,
-    padding: spacing.sm,
-    borderRadius: radii.sm,
+    padding: spacing.md,
+    borderRadius: radii.md,
+    alignItems: "center",
+    flexDirection: 'column',
+    
   },
   cardLabel: {
     fontSize: typography.fontSize.lg,
-    fontWeight: '600'
+    fontWeight: '500'
   }
 })

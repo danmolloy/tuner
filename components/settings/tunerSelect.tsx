@@ -1,5 +1,5 @@
 import { bassTunings, guitarTunings } from "@/lib/gtrTunings";
-import { globalStyles } from "@/lib/themes";
+import { colors, globalStyles } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
@@ -38,13 +38,13 @@ export default function TunerSelect() {
         onValueChange={(itemValue) => handleSelect(itemValue)}
         style={styles.picker}
       >
-        <Picker.Item label="Chromatic" value="Chromatic" />
+        <Picker.Item style={styles.pickerItem} label="Chromatic" value="Chromatic" />
         {guitarTunings.map(i => (
-          <Picker.Item key={i.id} label={i.name} value={i.name} />
+          <Picker.Item style={styles.pickerItem} key={i.id} label={i.name} value={i.name} />
 
         ))}
         {bassTunings.map(i => (
-          <Picker.Item key={i.id} label={i.name} value={i.name} />
+          <Picker.Item style={styles.pickerItem} key={i.id} label={i.name} value={i.name} />
 
         ))}
 
@@ -59,11 +59,14 @@ const styles = StyleSheet.create({
    ...globalStyles.settingsContainer
   },
   label: {
-    ...globalStyles.settingsLabel
+    ...globalStyles.settingsLabel,
+    color: colors.backgroundLight
   },
   picker: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: colors.primary,
     borderRadius: 8,
-
   },
+  pickerItem: {
+      color: colors.backgroundLight,
+    }
 });

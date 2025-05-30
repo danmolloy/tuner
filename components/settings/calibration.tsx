@@ -1,4 +1,4 @@
-import { globalStyles } from "@/lib/themes";
+import { colors, globalStyles } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
@@ -49,7 +49,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   label: {
-    ...globalStyles.settingsLabel
+    ...globalStyles.settingsLabel,
+        color: colors.backgroundLight
+    
   },
   input: {
     borderWidth: 1,
@@ -59,5 +61,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 16,
     backgroundColor: '#fff',
+    
   },
 });

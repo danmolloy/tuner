@@ -1,4 +1,4 @@
-import { borderWidths, globalStyles } from "@/lib/themes";
+import { colors, globalStyles } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
@@ -31,8 +31,8 @@ const [meterType, setMeterType] = useState(DEFAULT_METER_TYPE);
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Meter Type</Text>
-      <Pressable style={{ borderWidth: meterType === "Default" ? borderWidths.md : borderWidths.hairline}} onPress={() => handleSelect("Default")}>
-        <Text>Default</Text>
+      <Pressable style={{ padding: 8,}} onPress={() => handleSelect("Default")}>
+        <Text style={{color: colors.backgroundLight}}>Default</Text>
       </Pressable>
     </View>
   )
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   label: {
-    ...globalStyles.settingsLabel
+    ...globalStyles.settingsLabel,
+        color: colors.backgroundLight,
   }
 })

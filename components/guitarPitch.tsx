@@ -1,6 +1,6 @@
 import { BassStringNumber, bassTunings, GuitarStringNumber, guitarTunings } from "@/lib/gtrTunings";
 import { borderWidths, colors, radii, spacing, typography } from "@/lib/themes";
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 
 
@@ -22,7 +22,7 @@ export default function GuitarPitch({
   setSelectedOctave,
 }: {
   selectedOctave: number;
-  selectedPitch: string;
+  selectedPitch: string|null;
   selectedString: number;
   setSelectedString: (arg: number) => void;
   setSelectedPitch: (arg: string) => void;
@@ -78,15 +78,7 @@ const getTuning = (type: string | null): TuningMap => {
 
 const styles = StyleSheet.create({
 
-  container: {
-    borderWidth: 3,
-    borderColor: 'black',
-    borderRadius: 10,
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: Dimensions.get("window").width * 0.45,
-    paddingVertical: 8,
-  },
+  
   string: {
       borderColor: colors.text,
       padding: spacing.xs,
@@ -102,10 +94,11 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   pitchContainer: {
-    flexDirection: 'row',
-    alignItems: "center",
-    justifyContent: 'center',
-    width: '100%',
+  
+     
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: 100
   },
   noteText: {
     fontSize: 48, 

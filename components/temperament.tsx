@@ -1,8 +1,9 @@
+import { Temperament } from "@/lib/functions";
 import { globalStyles } from "@/lib/themes";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 
 export default function TemperamentCalibration({temperament, temperamentRoot, calibration}: 
-  {temperament: string, temperamentRoot: string | null, calibration: number}) {
+  {temperament: Temperament, temperamentRoot: string | null, calibration: number}) {
   
   return (
     <View style={styles.temperamentContainer}>

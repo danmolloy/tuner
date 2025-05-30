@@ -5,7 +5,7 @@ import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 export default function RecordingBtn({recording, stopRecording, startRecording, tunerMode, playDrone, setPlayDrone}: {
   tunerMode: "Detect" | "Target" | "Drone"
   playDrone: boolean;
-  setPlayDrone: () => void;
+  setPlayDrone: (arg: boolean) => void;
    recording: boolean;
 stopRecording: () => void;
     startRecording: () => void;
@@ -15,7 +15,7 @@ stopRecording: () => void;
     {tunerMode === "Drone" 
     ? <Pressable
       style={styles.pressable}
-                 onPress={() => setPlayDrone()}
+                 onPress={() => setPlayDrone(playDrone === true ? false : true)}
                >
                {playDrone === true 
                ? <Fontisto name="pause" size={24} color={"black"} style={{ marginRight: 5}} />

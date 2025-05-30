@@ -1,4 +1,5 @@
-import { globalStyles } from "@/lib/themes";
+import { Temperament } from "@/lib/functions";
+import { colors, globalStyles } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
@@ -10,18 +11,18 @@ export const TEMPERAMENT_ROOT = '@tuner_root';
 const DEFAULT_TEMPERAMENT = 'Equal';
 
 export default function TemperamentSelect() {
-       const [temperament, setTemperament] = useState(DEFAULT_TEMPERAMENT);
+       const [temperament, setTemperament] = useState<Temperament>(DEFAULT_TEMPERAMENT);
 
   useEffect(() => {
     const loadTemperament = async () => {
-      const stored = await AsyncStorage.getItem(TEMPERAMENT_KEY);
+      const stored = await AsyncStorage.getItem(TEMPERAMENT_KEY) as Temperament;
       if (stored) setTemperament(stored);
     };
     loadTemperament();
   }, []);
 
-  const handleSelect = async (value: string) => {
-    if (value === "Just") {
+  const handleSelect = async (value: Temperament) => {
+    if (value === "Just" || value === "Pythagorean" ||value ===  "Meantone" ||value ===  "Werckmeister") {
       setTemperament(value);
       await AsyncStorage.setItem(TEMPERAMENT_KEY, value);
       await AsyncStorage.setItem(TEMPERAMENT_ROOT, "C");
@@ -39,11 +40,15 @@ export default function TemperamentSelect() {
       <Text style={styles.label}>Temperament</Text>
       <Picker
         selectedValue={temperament}
-        onValueChange={(itemValue) => handleSelect(itemValue)}
+        onValueChange={(itemValue: Temperament) => handleSelect(itemValue)}
         style={styles.picker}
       >
-        <Picker.Item label="Equal Temperament" value="Equal" />
-        <Picker.Item label="Just Temperament (C)" value="Just" />
+        <Picker.Item style={styles.pickerItem} label="Equal Temperament" value="Equal" />
+        <Picker.Item style={styles.pickerItem} label="Just Temperament (C)" value="Just" />
+                <Picker.Item style={styles.pickerItem} label="Pythagorean Temperament (C)" value="Pythagorean" />
+        <Picker.Item style={styles.pickerItem} label="Meantone Temperament (C)" value="Meantone" />
+        <Picker.Item style={styles.pickerItem} label="Werckmeister Temperament (C)" value="Werckmeister" />
+
       </Picker>
     </View>
   )
@@ -54,10 +59,16 @@ const styles = StyleSheet.create({
      ...globalStyles.settingsContainer
   },
   label: {
-    ...globalStyles.settingsLabel
+    ...globalStyles.settingsLabel,
+    color: colors.backgroundLight,
   },
   picker: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: colors.primary,
     borderRadius: 8,
+
   },
+  pickerItem: {
+    color: colors.backgroundLight,
+    
+  }
 });
