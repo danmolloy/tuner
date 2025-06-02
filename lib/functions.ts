@@ -37,11 +37,13 @@ function getTemperamentRatios(temperament: Temperament, key: string): Record<str
 }
 
 
-export function freqToNote(frequency: number, calibration: number, temperament: Temperament, temperamentRoot?: string
+export function freqToNote({frequency, calibration, temperament, temperamentRoot }:{frequency: number, calibration: number, temperament: Temperament, temperamentRoot?: string}
 ): {
   note: string
   octave: number
   detectedFrequency: number
+    targetFrequency: number;
+
 } {
   const A4 = calibration;
   if (temperament !== 'Equal' && temperamentRoot !== undefined) {
@@ -68,7 +70,8 @@ export function freqToNote(frequency: number, calibration: number, temperament: 
     return {
       note: closestNote,
       octave: closestOctave,
-      detectedFrequency: frequency
+      detectedFrequency: frequency,
+       targetFrequency:  closestFreq
     };
   }
 
@@ -79,11 +82,19 @@ export function freqToNote(frequency: number, calibration: number, temperament: 
   const octave = Math.floor(midiNumber / 12) - 1;
   const noteName = noteNames[noteIndex];
 
+  const targetFrequency = noteToFreq({
+    note: noteName,
+    octave,
+    calibration,
+    temperament: "Equal",
+    temperamentRoot: "A", // Any value is fine here; it's ignored in Equal temperament
+  });
+
   return { 
     note: noteName, 
     octave: octave,
-          detectedFrequency: frequency
-
+    detectedFrequency: frequency,
+    targetFrequency:  targetFrequency
   };
 }
 

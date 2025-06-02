@@ -1,3 +1,4 @@
+import DroneSynth from '@/components/drone';
 import Meter from '@/components/meter';
 import AnalogueMeter from '@/components/meters/analogue';
 import ModeSelect from '@/components/modeSelect';
@@ -10,7 +11,6 @@ import { useAudioProcessor } from '@/lib/hooks/useAudioProcessor';
 import { colors, spacing, typography } from '@/lib/themes';
 import { useMemo, useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
-import { atob } from 'react-native-quick-base64';
 
 if (!global.atob) {
   global.atob = atob;
@@ -56,7 +56,7 @@ export default function HomeScreen() {
 
    const note = useMemo(() => {
     return frequency
-      ? freqToNote(frequency, calibration, temperament, temperamentRoot)
+      ? freqToNote({frequency, calibration, temperament, temperamentRoot})
       : null;
   }, [frequency, calibration, temperament, temperamentRoot]);
  
@@ -109,6 +109,7 @@ export default function HomeScreen() {
           stopRecording={handleStop}
         />
       </View>
+      <DroneSynth playDrone={playDrone} note={`${selectedPitch}${selectedOctave}`} />
     </ScrollView>
   );
 }

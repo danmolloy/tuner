@@ -1,4 +1,4 @@
-import { colors, globalStyles } from "@/lib/themes";
+import { colors, globalStyles, radii, spacing } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
@@ -47,10 +47,12 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 16,
     paddingHorizontal: 16,
+    backgroundColor: colors.backgroundLight,
+    borderRadius: radii.sm,
+    padding: spacing.sm
   },
   label: {
     ...globalStyles.settingsLabel,
-        color: colors.backgroundLight
     
   },
   input: {

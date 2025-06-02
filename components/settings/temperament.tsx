@@ -1,5 +1,5 @@
 import { Temperament } from "@/lib/functions";
-import { colors, globalStyles } from "@/lib/themes";
+import { colors, globalStyles, radii, spacing } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import { useEffect, useState } from "react";
@@ -56,14 +56,17 @@ export default function TemperamentSelect() {
 
 const styles = StyleSheet.create({
   container: {
-     ...globalStyles.settingsContainer
+     ...globalStyles.settingsContainer,
+
+              backgroundColor: colors.backgroundLight,
+              borderRadius: radii.sm,
+              padding: spacing.sm
   },
   label: {
     ...globalStyles.settingsLabel,
-    color: colors.backgroundLight,
   },
   picker: {
-    backgroundColor: colors.primary,
+              backgroundColor: colors.backgroundLight,
     borderRadius: 8,
 
   },

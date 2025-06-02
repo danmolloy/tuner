@@ -1,5 +1,5 @@
 import { useAppSettings } from "@/lib/hooks/useAppSettings";
-import { colors, globalStyles } from "@/lib/themes";
+import { colors, globalStyles, radii, spacing } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import { Alert, StyleSheet, Text, View } from "react-native";
@@ -40,16 +40,18 @@ const { meterType, setMeterType } = useAppSettings();
 
 const styles = StyleSheet.create({
     container: {
-     ...globalStyles.settingsContainer
+     ...globalStyles.settingsContainer,
+         backgroundColor: colors.backgroundLight,
+         borderRadius: radii.sm,
+         padding: spacing.sm
   },
   label: {
     ...globalStyles.settingsLabel,
-    color: colors.backgroundLight,
   },
   picker: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.backgroundLight,
     borderRadius: 8,
-
+    color: colors.backgroundLight
   },
   pickerItem: {
     color: colors.backgroundLight,

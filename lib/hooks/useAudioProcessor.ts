@@ -1,3 +1,4 @@
+import { Audio } from 'expo-av';
 import { PitchDetector } from "pitchy";
 import { useEffect, useRef } from "react";
 import AudioRecord from "react-native-audio-record";
@@ -13,6 +14,25 @@ export function useAudioProcessor({
   const lastClarityRef = useRef<number | null>(null);
 
   useEffect(() => {
+    
+     Audio.setAudioModeAsync({
+    playsInSilentModeIOS: true, // Allow sound even if iOS is muted
+    staysActiveInBackground: false,
+    shouldDuckAndroid: true,
+    playThroughEarpieceAndroid: false,
+  });
+
+        const options = {
+        sampleRate: 44100,
+        channels: 1,
+        bitsPerSample: 16,
+        audioSource: 6,
+        wavFile: 'test.wav'
+      };
+  
+      AudioRecord.init(options);
+
+
     AudioRecord.on("data", (data: string) => {
       try {
         const binaryString = global.atob(data);
