@@ -19,7 +19,7 @@ import StringSelect from "./stringSelect";
 
 const ITEM_WIDTH = 60; 
 const COMPONENT_WIDTH = ITEM_WIDTH * 3;
-const CENTER_OFFSET = (COMPONENT_WIDTH - ITEM_WIDTH) / 2;
+const CENTER_OFFSET = (COMPONENT_WIDTH - ITEM_WIDTH) / 2 -2.5; // -2 for border offset!
 const BUFFER_MULTIPLIER = 20; // Number of repetitions for infinite effect
 const NOTE_COUNT = noteNames.length;
 
@@ -97,6 +97,12 @@ const scrollToClosestNote = (
     setSelectedPitch(targetNote);
   }
 };
+
+useEffect(() => {
+  if (tunerMode === "Drone") {
+    scrollToClosestNote(selectedPitch)
+  }
+}, [tunerMode])
 
 
   // Handle automatic scrolling in Detect mode
@@ -197,7 +203,7 @@ snapToInterval={tunerMode !== "Detect" ? ITEM_WIDTH : undefined}
     displayedPitch === item && styles.selected
   ]}
 >
-  <View style={{ alignItems: "center",  }}>
+  <View style={{ alignItems: "center", }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
     <Text
       style={{
@@ -257,9 +263,11 @@ const styles = StyleSheet.create({
   },
   tickMark: {
   width: 2,
-  height: 16,
+  height: 24,
   backgroundColor: colors.primary,
-  marginBottom: -12
+  marginBottom: -24,
+  zIndex: 24,
+  overflowY: 'visible'
 
 },
 accidental: {

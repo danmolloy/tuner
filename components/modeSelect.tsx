@@ -6,8 +6,10 @@ import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 
 export default function ModeSelect({ 
   stopRecording,  
+  stopDrone,
   tunerMode, 
   setTunerMode}: {
+    stopDrone: () => void;
     tunerMode: "Detect"|"Target"|"Drone";
     setTunerMode: (arg: "Detect"|"Target"|"Drone") => void; 
     stopRecording: () => void;
@@ -16,7 +18,7 @@ export default function ModeSelect({
 
   return (
     <View style={styles.iconContainer}>
-      <Pressable onPress={() => setTunerMode("Detect")}>
+      <Pressable onPress={() => {setTunerMode("Detect"); stopDrone();}}>
         <FontAwesome style={{padding: 2 }}  name="microphone" size={24} color={tunerMode === "Detect" ? "black" : "gray"} />
       </Pressable>
             <Pressable onPress={() => {stopRecording(); setTunerMode("Drone")}}>

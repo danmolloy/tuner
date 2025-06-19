@@ -64,13 +64,13 @@ export default function AnalogueMeter({ setSelectedOctave, selectedOctave, note,
       <View style={{alignSelf: 'flex-end', marginBottom: -12, marginRight: 5}}>
                 <InputSignal clarity={clarity} />
 </View>
+    <View style={{alignItems: 'center', flexDirection: 'column'}}>
             <Text style={{color: 'gray', }}>{tunerType === "Chromatic" && tunerType.toUpperCase()}</Text>
+      <Text>{note?.detectedFrequency.toFixed(3)}</Text>
+      <Text>{note?.targetFrequency.toFixed(3)}</Text>
+    </View>
       
   <View style={[styles.container, { width: meterWidth }]}>
-    <View>
-      <Text>{note?.detectedFrequency}</Text>
-      <Text>{note?.targetFrequency}</Text>
-    </View>
   {/* Tick marks + labels */}
   {Array.from({ length: TICK_COUNT }).map((_, i) => {
     const isMajor = (i + 5) % 10 === 0;

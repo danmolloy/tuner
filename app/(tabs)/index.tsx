@@ -103,6 +103,7 @@ export default function HomeScreen() {
           temperamentRoot={temperamentRoot}
         />
         <ModeSelect
+          stopDrone={() => setPlayDrone(false)}
           stopRecording={handleStop} 
           tunerMode={tunerMode}
           setTunerMode={setTunerMode} />

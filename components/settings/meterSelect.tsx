@@ -1,7 +1,7 @@
-import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { colors, globalStyles, radii, spacing } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
+import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 
 export const METER_TYPE_KEY = '@meter_type';
@@ -9,12 +9,20 @@ export const METER_TYPE_KEY = '@meter_type';
 const DEFAULT_METER_TYPE = 'Default';
 
 export default function MeterSelect() {
-const { meterType, setMeterType } = useAppSettings();
+const [meter, setMeter] = useState(DEFAULT_METER_TYPE);
+
+    useEffect(() => {
+    const loadMeter = async () => {
+      const stored = await AsyncStorage.getItem(METER_TYPE_KEY);
+      if (stored) setMeter(stored);
+    };
+    loadMeter();
+  }, []);
 
   const handleSelect = async (value: string) => {
     if (value === "Default" || value === "Analogue") {
+      setMeter(value)
       await AsyncStorage.setItem(METER_TYPE_KEY, value);
-      setMeterType(value)
     } else {
       Alert.alert("Invalid Value", "Temperament must be Equal or Just");
     }
@@ -25,7 +33,7 @@ const { meterType, setMeterType } = useAppSettings();
     <View style={styles.container}>
       <Text style={styles.label}>Meter Type</Text>
       <Picker
-        selectedValue={meterType}
+        selectedValue={meter}
         onValueChange={(itemValue: string) => handleSelect(itemValue)}
         style={styles.picker}
       >
