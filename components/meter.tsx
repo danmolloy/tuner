@@ -32,18 +32,18 @@ export default function Meter({ setSelectedOctave, selectedOctave, note, clarity
 
     const { tunerType, temperament, calibration, temperamentRoot } = useAppSettings();
 
-
-
-const cents = (() => {
-  if (!note || note.detectedFrequency == null) return 0;
-  try {
-    const targetFreq = noteToFreq({
+    
+    const targetFreq = !note || note.detectedFrequency == null ? 0 : noteToFreq({
       note: note.note,
       octave: note.octave,
       calibration,
       temperament,
       temperamentRoot: temperament !== "Equal" ? temperamentRoot ?? "C" : "C",
     });
+
+const cents = (() => {
+  if (!note || note.detectedFrequency == null) return 0;
+  try {
     return centsFromNote(note.detectedFrequency, targetFreq);
   } catch (e) {
     console.warn("Error calculating cents:", e);
@@ -147,12 +147,13 @@ useEffect(() => {
           strokeWidth={2}
         />
       </Svg>
-
+      
       <View style={[StyleSheet.absoluteFill, styles.textContainer]}>
 <Text style={styles.centsText}>{Math.round(cents) || 0}</Text>
         <Text style={styles.centsLabel}>CENTS</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: "center"}}>
-         </View>
+        <Text style={{fontSize: typography.fontSize.md}}>{targetFreq !== 0 && targetFreq.toFixed(2)}</Text>
+        <Text style={{fontSize: typography.fontSize.md}}>{note?.detectedFrequency.toFixed(2)}</Text>
+       
       </View>
       <View style={{
         alignSelf: "flex-end",
@@ -182,8 +183,9 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   centsText: {
-    fontSize: typography.fontSize.xl,
+    fontSize: typography.fontSize.lg,
     fontWeight: "500",
+    marginTop: 12
   },
   centsLabel: {
     fontSize: typography.fontSize.sm,

@@ -1,6 +1,7 @@
-import { noteNames } from "@/lib/functions";
+import { centsFromNote, noteNames, noteToFreq } from "@/lib/functions";
 import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { borderWidths, colors, radii } from "@/lib/themes";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -15,13 +16,14 @@ import {
 } from "react-native";
 import StringSelect from "./stringSelect";
 
+
 const ITEM_WIDTH = 60; 
 const COMPONENT_WIDTH = ITEM_WIDTH * 3;
 const CENTER_OFFSET = (COMPONENT_WIDTH - ITEM_WIDTH) / 2;
 const BUFFER_MULTIPLIER = 20; // Number of repetitions for infinite effect
 const NOTE_COUNT = noteNames.length;
 
-export default function Pitch({ 
+export default function PitchScroller({ 
   note,
   setSelectedPitch,
   selectedString,
@@ -41,14 +43,16 @@ export default function Pitch({
   note: {
     note: string;
     octave: number;
+    detectedFrequency: number
   } | null;
 }) {
+  
   const flatListRef = useRef<FlatList>(null);
   const didInitialScroll = useRef(false);
   const [data] = useState(() => Array(BUFFER_MULTIPLIER).fill(noteNames).flat());
   const currentIndex = useRef(0);
 
-  const { tunerType } = useAppSettings();
+  const { tunerType, temperament, calibration, temperamentRoot } = useAppSettings();
   
   const displayedPitch = tunerMode === "Detect" && note?.note ? note.note : selectedPitch;
 
@@ -56,31 +60,37 @@ export default function Pitch({
   const middleIndex = Math.floor(data.length / 2);
   const initialIndex = middleIndex + noteNames.indexOf(selectedPitch);
 
-const scrollToClosestNote = (targetNote: string, animated = true) => {
+const scrollToClosestNote = (
+  targetNote: string,
+  animated = true,
+  centOffset = 0 // cents: -50 (flat) to +50 (sharp)
+) => {
   const targetBaseIndex = noteNames.indexOf(targetNote);
-  
-  // Validate the note exists
   if (targetBaseIndex === -1) {
     console.warn(`Invalid note "${targetNote}" - defaulting to "A"`);
-    return scrollToClosestNote("A", animated); // Fallback to a safe note
+    return scrollToClosestNote("A", animated, centOffset);
   }
 
   const currentBaseIndex = currentIndex.current % NOTE_COUNT;
   let delta = targetBaseIndex - currentBaseIndex;
 
-  // Find the shortest path (forward or backward)
+  // Minimize movement
   if (Math.abs(delta) > NOTE_COUNT / 2) {
     delta = delta > 0 ? delta - NOTE_COUNT : delta + NOTE_COUNT;
   }
 
-  const targetIndex = Math.max(0, Math.min(data.length - 1, currentIndex.current + delta));
+  const targetIndex = currentIndex.current + delta;
+
+  // Cents offset in fractional item widths
+  const fractionalOffset = centOffset / 100; // 50 cents => 0.5
+  const scrollOffset = (targetIndex + fractionalOffset) * ITEM_WIDTH;
 
   if (flatListRef.current) {
-    flatListRef.current.scrollToIndex({
-      index: targetIndex,
+    flatListRef.current.scrollToOffset({
+      offset: scrollOffset,
       animated,
     });
-    currentIndex.current = targetIndex;
+    currentIndex.current = targetIndex; // Keep integer index to snap to on user scroll
   }
 
   if (targetNote !== selectedPitch) {
@@ -91,10 +101,27 @@ const scrollToClosestNote = (targetNote: string, animated = true) => {
 
   // Handle automatic scrolling in Detect mode
   useEffect(() => {
-    if (tunerMode === "Detect" && note?.note) {
-      scrollToClosestNote(note.note, true);
-    }
-  }, [note?.note, tunerMode]);
+  if (tunerMode === "Detect" && note?.note && note.detectedFrequency != null) {
+    const centOffset = (() => {
+      try {
+        const targetFreq = noteToFreq({
+          note: note.note,
+          octave: note.octave,
+          calibration,
+          temperament,
+          temperamentRoot: temperament !== "Equal" ? temperamentRoot ?? "C" : "C",
+        });
+        return centsFromNote(note.detectedFrequency, targetFreq);
+      } catch (e) {
+        console.warn("Error calculating cents:", e);
+        return 0;
+      }
+    })();
+
+    scrollToClosestNote(note.note, true, centOffset);
+  }
+}, [note?.note, note?.detectedFrequency, tunerMode]);
+
 
   // Initial setup
 useEffect(() => {
@@ -155,7 +182,7 @@ useEffect(() => {
           horizontal
           initialScrollIndex={initialIndex}
           showsHorizontalScrollIndicator={false}
-          snapToInterval={ITEM_WIDTH}
+snapToInterval={tunerMode !== "Detect" ? ITEM_WIDTH : undefined}
           decelerationRate="fast"
           contentContainerStyle={{ paddingHorizontal: CENTER_OFFSET }}
           data={data}
@@ -195,14 +222,14 @@ useEffect(() => {
           style={styles.accidental}
           color="black"
         />
-      ) : (
+      ) : null/* (
         <MaterialCommunityIcons
           name="music-accidental-natural"
           size={24}
           style={styles.accidental}
           color="black"
         />
-      )
+      ) */
     }
     </View>
     <View style={styles.tickMark} />
@@ -210,6 +237,7 @@ useEffect(() => {
 </Pressable>
           )}
         />
+          <FontAwesome style={{alignSelf: 'center'}} name="caret-up" size={24} color="black" />
       </View>
     </View>
   );
@@ -231,7 +259,8 @@ const styles = StyleSheet.create({
   width: 2,
   height: 16,
   backgroundColor: colors.primary,
-  marginTop: 0,
+  marginBottom: -12
+
 },
 accidental: {
   marginLeft: -6,
@@ -252,9 +281,7 @@ accidental: {
     width: ITEM_WIDTH,
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: 'row',
-    borderWidth: 1, 
-    borderColor: 'black'
+    flexDirection: 'row'
   },
   selected: {
     

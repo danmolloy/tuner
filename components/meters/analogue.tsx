@@ -24,7 +24,7 @@ export default function AnalogueMeter({ setSelectedOctave, selectedOctave, note,
     
 
   const TICK_COUNT = 51;
-  const meterWidth = Dimensions.get("window").width * 0.85;
+  const meterWidth = Dimensions.get("window").width * 0.95;
   const SIDE_PADDING = 10;
   const drawingWidth = meterWidth - SIDE_PADDING * 2;
   const spacing = drawingWidth / (TICK_COUNT - 1);
@@ -67,6 +67,10 @@ export default function AnalogueMeter({ setSelectedOctave, selectedOctave, note,
             <Text style={{color: 'gray', }}>{tunerType === "Chromatic" && tunerType.toUpperCase()}</Text>
       
   <View style={[styles.container, { width: meterWidth }]}>
+    <View>
+      <Text>{note?.detectedFrequency}</Text>
+      <Text>{note?.targetFrequency}</Text>
+    </View>
   {/* Tick marks + labels */}
   {Array.from({ length: TICK_COUNT }).map((_, i) => {
     const isMajor = (i + 5) % 10 === 0;
@@ -129,7 +133,7 @@ const styles = StyleSheet.create({
         ...globalStyles.globalCard,
         flexDirection: "column",
         justifyContent: 'center',
-        width: Dimensions.get("screen").width * 0.9,
+        width: Dimensions.get("screen").width * 0.97,
         height: Dimensions.get("screen").width * 0.75,
         position: "relative",
         padding: spacing.xs,
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
     borderRadius: radii.md
   },
   tick: {
-    width: 2,
+    width: 1.5,
     position: "absolute",
     bottom: 0,
     backgroundColor: "black",

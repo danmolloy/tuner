@@ -45,7 +45,7 @@ export default function CalibrationInput() {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 16,
+    marginVertical: 8,
     paddingHorizontal: 16,
     backgroundColor: colors.backgroundLight,
     borderRadius: radii.sm,

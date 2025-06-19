@@ -21,11 +21,10 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     ...globalStyles.pageView,
-    backgroundColor: colors.primary
+    backgroundColor: colors.backgroundLight
     
   },
   headerText: {
     ...globalStyles.headerText,
-    color: colors.backgroundLight
   }
 })

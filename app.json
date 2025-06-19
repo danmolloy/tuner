@@ -2,9 +2,9 @@
   "expo": {
     "name": "chromatic-tuner",
     "slug": "chromatic-tuner",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/tuner-icon.png",
     "scheme": "chromatictuner",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -37,14 +37,19 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/splash-tuner-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
       ],
       "expo-font",
-      "expo-audio"
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Allow Chromatic Tuner to access your microphone."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

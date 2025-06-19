@@ -2,14 +2,14 @@ import DroneSynth from '@/components/drone';
 import Meter from '@/components/meter';
 import AnalogueMeter from '@/components/meters/analogue';
 import ModeSelect from '@/components/modeSelect';
-import Pitch from '@/components/pitch';
+import PitchScroller from '@/components/pitchScroller';
 import RecordingBtn from '@/components/recordingBtn';
 import TemperamentCalibration from '@/components/temperament';
-import { freqToNote } from '@/lib/functions';
+import { freqToNote, noteToFreq } from '@/lib/functions';
 import { useAppSettings } from '@/lib/hooks/useAppSettings';
 import { useAudioProcessor } from '@/lib/hooks/useAudioProcessor';
 import { colors, spacing, typography } from '@/lib/themes';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 
 if (!global.atob) {
@@ -22,7 +22,7 @@ export const appName = "Tuner"
 export default function HomeScreen() {
   const [frequency, setFrequency] = useState<number | null>(null);
   const [clarity, setClarity] = useState<number | null>(null);
-  const [recording, setRecording] = useState(false);
+  const [recording, setRecording] = useState(true);
   const [playDrone, setPlayDrone] = useState(false);
   const [tunerMode, setTunerMode] = useState<"Detect" | "Target" | "Drone">("Detect");
   const [selectedOctave, setSelectedOctave] = useState<number|null>(null)
@@ -36,12 +36,19 @@ export default function HomeScreen() {
     meterType
   } = useAppSettings();
 
-  const { start, stop } = useAudioProcessor({
+  const { start, stop, ready } = useAudioProcessor({
     onFrequencyDetected: (freq, clar) => {
       setFrequency(freq);
       setClarity(clar);
     }
   });
+
+  useEffect(() => {
+    if (ready) {
+      handleStart();
+
+    }
+  }, [ready])
 
   const handleStart = async () => {
     setRecording(true);
@@ -80,7 +87,7 @@ export default function HomeScreen() {
           selectedOctave={selectedOctave}
           note={note} 
         /> }
-        <Pitch
+        <PitchScroller
           selectedString={selectedString}
           setSelectedString={(arg) => setSelectedString(arg)}
           tunerMode={tunerMode}
@@ -109,7 +116,14 @@ export default function HomeScreen() {
           stopRecording={handleStop}
         />
       </View>
-      <DroneSynth playDrone={playDrone} note={`${selectedPitch}${selectedOctave}`} />
+      <DroneSynth playDrone={playDrone} note={
+        String(noteToFreq({
+          note: selectedPitch,
+          octave: selectedOctave || 4,
+          temperament: temperament,
+          calibration: calibration,
+          temperamentRoot: temperamentRoot
+        }))} />
     </ScrollView>
   );
 }

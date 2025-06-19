@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 export default function HowToUsePage() {
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.pageHeader}>Using This App</Text>
+      <Text style={{...globalStyles.headerText}}>About</Text>
       <Text>This tuner is designed to be both accurate and approachable — offering flexibility for experienced musicians while remaining intuitive for newcomers.</Text>
       <View style={styles.pageSection}>
       <Text style={styles.h2}>Modes</Text>
