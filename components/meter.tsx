@@ -45,7 +45,7 @@ const cents = (() => {
   if (!note || note.detectedFrequency == null) return 0;
   try {
     const result =  centsFromNote(note.detectedFrequency, targetFreq);
-if (Math.abs(result) > 100) return 0;
+if (Math.abs(result) > 100 && tunerType === "Chromatic") return 0;
     return result
   } catch (e) {
     console.warn("Error calculating cents:", e);
@@ -55,7 +55,7 @@ if (Math.abs(result) > 100) return 0;
         
 
 
-  const size = Dimensions.get("screen").width * 0.6;
+  const size = Dimensions.get("screen").width * 0.65;
   const radius = size / 2 - 20;
   const centre = size / 2;
   
@@ -154,8 +154,11 @@ useEffect(() => {
       <View style={[StyleSheet.absoluteFill, styles.textContainer]}>
 <Text style={styles.centsText}>{Math.round(cents) || 0}</Text>
         <Text style={styles.centsLabel}>CENTS</Text>
-        <Text style={{fontSize: typography.fontSize.md}}>{targetFreq !== 0 && targetFreq.toFixed(2)}</Text>
-        <Text style={{fontSize: typography.fontSize.md}}>{note?.detectedFrequency.toFixed(2)}</Text>
+        <View style={{alignItems: 'flex-start', flexDirection: 'column',  width: 160,  padding: 2, borderRadius: 6, }}>
+              
+        <Text style={{fontSize: typography.fontSize.md}}>DETECTED: {note?.detectedFrequency.toFixed(2)}</Text>
+        <Text style={{fontSize: typography.fontSize.md}}>TARGET: {targetFreq !== 0 && targetFreq.toFixed(2)}</Text>
+            </View>
        
       </View>
       <View style={{

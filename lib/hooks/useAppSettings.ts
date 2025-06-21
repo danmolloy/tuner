@@ -13,7 +13,7 @@ export function useAppSettings() {
   const [temperament, setTemperament] = useState<Temperament>("Equal");
   const [temperamentRoot, setTemperamentRoot] = useState<string>("C");
   const [tunerType, setTunerType] = useState<string>("Chromatic");
-  const [meterType, setMeterType] = useState<string>("Default");
+  const [meterType, setMeterType] = useState<string>("Analogue");
     const [tunerMode, setTunerMode] = useState<"Detect" | "Target" | "Drone">("Detect");
 
   useEffect(() => {

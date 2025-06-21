@@ -2,18 +2,20 @@ import CalibrationInput from "@/components/settings/calibration";
 import MeterSelect from "@/components/settings/meterSelect";
 import TemperamentSelect from "@/components/settings/temperament";
 import TunerSelect from "@/components/settings/tunerSelect";
-import { colors, globalStyles } from "@/lib/themes";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { borderWidths, colors, globalStyles, radii, spacing } from "@/lib/themes";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function SettingsScreen() {
 
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.headerText}>Settings</Text>
+      <View style={styles.settingContainer}>
       <CalibrationInput />
       <TemperamentSelect />
       <TunerSelect />
       <MeterSelect />
+      </View>
     </ScrollView>
   )
 }
@@ -21,10 +23,20 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     ...globalStyles.pageView,
-    backgroundColor: colors.backgroundLight
+    backgroundColor: colors.primary
     
   },
   headerText: {
     ...globalStyles.headerText,
+    color: colors.backgroundLight,
+  },
+  settingContainer: {
+    borderColor: 'gray',
+    backgroundColor: colors.backgroundLight,
+            borderWidth: borderWidths.sm,
+             padding: spacing.md,
+            borderRadius: radii.md,
+            marginHorizontal: -8,
+            marginVertical: 12
   }
 })

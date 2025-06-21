@@ -45,7 +45,7 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
 
   const cents = centsFromNote(note.detectedFrequency, targetFreq);
   setCurrentCents(cents)
-    if (Math.abs(cents) > 100) return;
+    if (Math.abs(cents) > 100 && tunerType === "Chromatic") return;
 
  const clamped = Math.max(-25, Math.min(25, cents));
   const needleIndex = clamped + 25; // shift to [0, 50]
@@ -73,14 +73,14 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
 
   return (
     <View style={styles.panelContainer}>
-      <View style={{alignSelf: 'flex-end', marginBottom: -12, marginRight: 5}}>
-                <InputSignal clarity={clarity} />
-</View>
-    <View style={{alignItems: 'center', flexDirection: 'column'}}>
-            <Text style={{color: 'gray', }}>{tunerType === "Chromatic" && tunerType.toUpperCase()}</Text>
-      <Text>{note?.detectedFrequency.toFixed(3)}</Text>
-      <Text>{note?.targetFrequency.toFixed(3)}</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginHorizontal: 5, marginBottom: 6, width: meterWidth }}>
+            <Text style={{color: 'gray', alignSelf: 'flex-end'}}>{tunerType === "Chromatic" && tunerType.toUpperCase()}</Text>
+    <View style={{alignItems: 'flex-start', flexDirection: 'column', borderColor: 'gray', borderWidth: 1, width: 150,  padding: 2, borderRadius: radii.sm, }}>
+      <Text style={{marginLeft: 20, color: 'gray'}}>TARGET: {note?.targetFrequency.toFixed(3)}</Text>
+      <Text style={{color: 'gray'}}>DETECTED: {note?.detectedFrequency.toFixed(3)}</Text>
     </View>
+            <InputSignal clarity={clarity} />
+      </View>
       
   <View style={[styles.container, { width: meterWidth }]}>
   {/* Tick marks + labels */}
@@ -135,7 +135,6 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
   />
 </View>
       <Octave note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)}  selectedOctave={selectedOctave}/>
-    <Text>{currentCents}</Text>
     </View>
   );
 }

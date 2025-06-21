@@ -6,7 +6,7 @@ import { Alert, StyleSheet, Text, View } from "react-native";
 
 export const METER_TYPE_KEY = '@meter_type';
 
-const DEFAULT_METER_TYPE = 'Default';
+const DEFAULT_METER_TYPE = 'Analogue';
 
 export default function MeterSelect() {
 const [meter, setMeter] = useState(DEFAULT_METER_TYPE);
@@ -20,7 +20,7 @@ const [meter, setMeter] = useState(DEFAULT_METER_TYPE);
   }, []);
 
   const handleSelect = async (value: string) => {
-    if (value === "Default" || value === "Analogue") {
+    if (value === "Arc" || value === "Analogue") {
       setMeter(value)
       await AsyncStorage.setItem(METER_TYPE_KEY, value);
     } else {
@@ -37,7 +37,7 @@ const [meter, setMeter] = useState(DEFAULT_METER_TYPE);
         onValueChange={(itemValue: string) => handleSelect(itemValue)}
         style={styles.picker}
       >
-        <Picker.Item style={styles.pickerItem} label="Default" value="Default" />
+        <Picker.Item style={styles.pickerItem} label="Arc" value="Arc" />
                 <Picker.Item style={styles.pickerItem} label="Analogue" value="Analogue" />
         
       </Picker>
