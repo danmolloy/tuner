@@ -18,9 +18,9 @@ export default function ModeSelect({
 
   return (
     <View style={styles.iconContainer}>
-      <Pressable onPress={() => {setTunerMode("Detect"); stopDrone();}}>
+      {tunerType === "Chromatic" && <Pressable onPress={() => {setTunerMode("Detect"); stopDrone();}}>
         <FontAwesome style={{padding: 2 }}  name="microphone" size={24} color={tunerMode === "Detect" ? "black" : "gray"} />
-      </Pressable>
+      </Pressable>}
             <Pressable onPress={() => {stopRecording(); setTunerMode("Drone")}}>
       <FontAwesome style={{padding: 2}} name="volume-down" size={24} color={tunerMode === "Drone" ? "black" : "gray"} />
       </Pressable>

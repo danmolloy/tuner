@@ -1,4 +1,5 @@
 import { bassTunings, guitarTunings } from "@/lib/gtrTunings";
+import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { colors, globalStyles, radii, spacing } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
@@ -12,20 +13,24 @@ const DEFAULT_TUNER_TYPE = 'Chromatic';
 
 
 export default function TunerSelect() {
-  const [tunerType, setTunerType] = useState(DEFAULT_TUNER_TYPE);
+  const [localTunerType, setLocalTunerType] = useState(DEFAULT_TUNER_TYPE);
+  const { setTunerMode, setTunerType } = useAppSettings();
 
   useEffect(() => {
     const loadTunerType = async () => {
       const stored = await AsyncStorage.getItem(TUNER_TYPE_KEY);
-      if (stored) setTunerType(stored);
+      if (stored) setLocalTunerType(stored);
     };
     loadTunerType();
   }, []);
 
   const handleSelect = async (value: string) => {
     if (value === "Chromatic" || guitarTunings.map(i => i.name).includes(value)|| bassTunings.map(i => i.name).includes(value)) {
-      setTunerType(value);
+      
+      setLocalTunerType(value);
+      setTunerType(value)
       await AsyncStorage.setItem(TUNER_TYPE_KEY, value);
+      //value === "Chromatic" && setTunerMode("Detect")
     } else {
       Alert.alert("Invalid Value", "Selected tuning invalid.");
     }
@@ -34,7 +39,7 @@ export default function TunerSelect() {
     <View style={styles.container}>
       <Text style={styles.label}>Tuner Type</Text>
       <Picker
-        selectedValue={tunerType}
+        selectedValue={localTunerType}
         onValueChange={(itemValue) => handleSelect(itemValue)}
         style={styles.picker}
       >

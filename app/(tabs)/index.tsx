@@ -20,21 +20,24 @@ export const globalBorderWidth = 2;
 export const appName = "Tuner"
 
 export default function HomeScreen() {
-  const [frequency, setFrequency] = useState<number | null>(null);
-  const [clarity, setClarity] = useState<number | null>(null);
-  const [recording, setRecording] = useState(true);
-  const [playDrone, setPlayDrone] = useState(false);
-  const [tunerMode, setTunerMode] = useState<"Detect" | "Target" | "Drone">("Detect");
-  const [selectedOctave, setSelectedOctave] = useState<number|null>(null)
-  const [selectedPitch, setSelectedPitch] = useState<string>("A");
-  const [selectedString, setSelectedString] = useState(1);
-
   const {
     calibration,
     temperament,
     temperamentRoot,
-    meterType
+    meterType,
+    tunerMode,
+    setTunerMode
   } = useAppSettings();
+
+  const [frequency, setFrequency] = useState<number | null>(null);
+  const [clarity, setClarity] = useState<number | null>(null);
+  const [recording, setRecording] = useState(true);
+  const [playDrone, setPlayDrone] = useState(false);
+  const [selectedOctave, setSelectedOctave] = useState<number|null>(null)
+  const [selectedPitch, setSelectedPitch] = useState<string>("A");
+  const [selectedString, setSelectedString] = useState(1);
+
+
 
   const { start, stop, ready } = useAudioProcessor({
     onFrequencyDetected: (freq, clar) => {
@@ -42,6 +45,8 @@ export default function HomeScreen() {
       setClarity(clar);
     }
   });
+
+
 
   useEffect(() => {
     if (ready) {
@@ -66,6 +71,12 @@ export default function HomeScreen() {
       ? freqToNote({frequency, calibration, temperament, temperamentRoot})
       : null;
   }, [frequency, calibration, temperament, temperamentRoot]);
+
+  useEffect(() => {
+    if (tunerMode === "Detect") {
+      setSelectedOctave(null)
+    }
+  }, [tunerMode])
  
   return (
     <ScrollView>

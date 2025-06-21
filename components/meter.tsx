@@ -18,7 +18,7 @@ import Octave from "./octave";
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export default function Meter({ setSelectedOctave, selectedOctave, note, clarity }: { 
+export default function Meter({ selectedPitch, setSelectedOctave, selectedOctave, note, clarity }: { 
   clarity: number|null;
   note: {
     note: string;
@@ -33,9 +33,9 @@ export default function Meter({ setSelectedOctave, selectedOctave, note, clarity
     const { tunerType, temperament, calibration, temperamentRoot } = useAppSettings();
 
     
-    const targetFreq = !note || note.detectedFrequency == null ? 0 : noteToFreq({
-      note: note.note,
-      octave: note.octave,
+    const targetFreq = (!note || note.detectedFrequency == null|| note.detectedFrequency < 16.35) ? 0 : noteToFreq({
+      note: selectedPitch? selectedPitch :note.note,
+      octave: selectedOctave ? selectedOctave : note.octave,
       calibration,
       temperament,
       temperamentRoot: temperament !== "Equal" ? temperamentRoot ?? "C" : "C",
@@ -44,12 +44,15 @@ export default function Meter({ setSelectedOctave, selectedOctave, note, clarity
 const cents = (() => {
   if (!note || note.detectedFrequency == null) return 0;
   try {
-    return centsFromNote(note.detectedFrequency, targetFreq);
+    const result =  centsFromNote(note.detectedFrequency, targetFreq);
+if (Math.abs(result) > 100) return 0;
+    return result
   } catch (e) {
     console.warn("Error calculating cents:", e);
     return 0;
   }
 })();
+        
 
 
   const size = Dimensions.get("screen").width * 0.6;

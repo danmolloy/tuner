@@ -12,7 +12,10 @@ export function useAudioProcessor({
 }: {
   onFrequencyDetected: (frequency: number | null, clarity: number | null) => void;
 }) {
-  const detector = useRef(PitchDetector.forFloat32Array(1024)).current;
+  //const detector = useRef(PitchDetector.forFloat32Array(1024)).current;
+  //const detector = useRef(PitchDetector.forFloat32Array(8192)).current;
+const detector = useRef(PitchDetector.forFloat32Array(4096)).current;
+
   const bufferRef = useRef<Float32Array>(new Float32Array(0));
   const lastFreqRef = useRef<number | null>(null);
   const lastClarityRef = useRef<number | null>(null);
@@ -63,8 +66,8 @@ export function useAudioProcessor({
           combined.set(prev);
           combined.set(float32Array, prev.length);
 
-          if (combined.length >= 1024) {
-            const chunk = combined.slice(0, 1024);
+          if (combined.length >= /* 8192 */ 4096) {
+            const chunk = combined.slice(0, /* 8192 */4096);
             const [pitch, clarity] = detector.findPitch(chunk, 44100);
 
             const changed =
@@ -74,10 +77,20 @@ export function useAudioProcessor({
             if (changed) {
               lastFreqRef.current = pitch;
               lastClarityRef.current = clarity;
-              onFrequencyDetected(clarity > 0.9 ? pitch : null, clarity);
+              const isLow = pitch < 100;
+const clarityThreshold = isLow ? 0.7 : 0.9;
+
+if (clarity > clarityThreshold) {
+  onFrequencyDetected(pitch, clarity);
+} else {
+  onFrequencyDetected(null, clarity);
+}
+              //onFrequencyDetected(clarity > 0.9 ? pitch : null, clarity);
             }
 
-            bufferRef.current = combined.slice(1024);
+            //bufferRef.current = combined.slice(1024);
+              //bufferRef.current = combined.slice(8192);
+bufferRef.current = combined.slice(4096);
           } else {
             bufferRef.current = combined;
           }

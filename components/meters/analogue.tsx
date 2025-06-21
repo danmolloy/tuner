@@ -1,13 +1,13 @@
-import { centsFromNote } from "@/lib/functions";
+import { centsFromNote, noteToFreq } from "@/lib/functions";
 import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { colors, globalStyles, radii, spacing } from "@/lib/themes";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
 import InputSignal from "../inputSignal";
 import Octave from "../octave";
 
 
-export default function AnalogueMeter({ setSelectedOctave, selectedOctave, note, clarity }: { 
+export default function AnalogueMeter({ selectedPitch, setSelectedOctave, selectedOctave, note, clarity }: { 
   clarity: number|null;
   note: {
     note: string;
@@ -20,8 +20,8 @@ export default function AnalogueMeter({ setSelectedOctave, selectedOctave, note,
   setSelectedOctave: (arg: number| null) => void
   selectedOctave: number|null }) {
 
-        const { tunerType, calibration } = useAppSettings();
-    
+        const { tunerType, calibration, temperament, temperamentRoot } = useAppSettings();
+    const [currentCents, setCurrentCents] = useState<number|null>(null)
 
   const TICK_COUNT = 51;
   const meterWidth = Dimensions.get("window").width * 0.95;
@@ -35,7 +35,18 @@ export default function AnalogueMeter({ setSelectedOctave, selectedOctave, note,
   useEffect(() => {
   if (!note || !note.detectedFrequency || clarity == null || clarity < 0.9) return;
 
-  const cents = centsFromNote(note.detectedFrequency, note.targetFrequency);
+    const targetFreq = !note || note.detectedFrequency == null ? 0 : noteToFreq({
+        note: selectedPitch? selectedPitch :note.note,
+        octave: selectedOctave ? selectedOctave : note.octave,
+        calibration,
+        temperament,
+        temperamentRoot: temperament !== "Equal" ? temperamentRoot ?? "C" : "C",
+      });
+
+  const cents = centsFromNote(note.detectedFrequency, targetFreq);
+  setCurrentCents(cents)
+    if (Math.abs(cents) > 100) return;
+
  const clamped = Math.max(-25, Math.min(25, cents));
   const needleIndex = clamped + 25; // shift to [0, 50]
   const left = SIDE_PADDING + needleIndex * spacing;
@@ -46,10 +57,11 @@ export default function AnalogueMeter({ setSelectedOctave, selectedOctave, note,
     useNativeDriver: false,
   }).start(); */
    Animated.spring(needleX, {
-      toValue: left,
-  stiffness: 150,
-  damping: 20,
+    toValue: left,
+  stiffness: 75,
+  damping: 25,
   mass: 1,
+  overshootClamping: true,
   useNativeDriver: false,
     }).start();
 
@@ -123,7 +135,7 @@ export default function AnalogueMeter({ setSelectedOctave, selectedOctave, note,
   />
 </View>
       <Octave note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)}  selectedOctave={selectedOctave}/>
-
+    <Text>{currentCents}</Text>
     </View>
   );
 }

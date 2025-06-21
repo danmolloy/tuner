@@ -146,6 +146,11 @@ useEffect(() => {
   }
 }, []);
 
+  useEffect(() => {
+    scrollToClosestNote(selectedPitch);
+
+  }, [selectedPitch])
+
   // Handle manual scrolling
   const handleScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (tunerMode === "Detect") return;
@@ -166,6 +171,8 @@ useEffect(() => {
     offset: ITEM_WIDTH * index,
     index,
   });
+
+
 
   return (
     <View style={styles.panel}>

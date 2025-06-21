@@ -4,7 +4,7 @@ import { TEMPERAMENT_KEY, TEMPERAMENT_ROOT } from "@/components/settings/tempera
 import { TUNER_TYPE_KEY } from "@/components/settings/tunerSelect";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Temperament } from "../functions";
 
 
@@ -14,7 +14,17 @@ export function useAppSettings() {
   const [temperamentRoot, setTemperamentRoot] = useState<string>("C");
   const [tunerType, setTunerType] = useState<string>("Chromatic");
   const [meterType, setMeterType] = useState<string>("Default");
-  
+    const [tunerMode, setTunerMode] = useState<"Detect" | "Target" | "Drone">("Detect");
+
+  useEffect(() => {
+    if (tunerType === "Chromatic") {
+      setTunerMode("Detect")
+    } else {
+            setTunerMode("Target")
+
+    }
+  }, [tunerType])
+
   useFocusEffect(
     useCallback(() => {
       const loadSettings = async () => {
@@ -32,7 +42,11 @@ export function useAppSettings() {
         
 
         const type = await AsyncStorage.getItem(TUNER_TYPE_KEY);
-        if (type) setTunerType(type);
+        if (type) {
+          setTunerType(type);
+          type !== "Chromatic" && setTunerMode("Target")
+        }
+       
       };
 
       loadSettings();
@@ -46,6 +60,8 @@ export function useAppSettings() {
     tunerType,
     setTunerType,
     setMeterType,
-    meterType
+    meterType,
+    tunerMode,
+    setTunerMode
   };
 }

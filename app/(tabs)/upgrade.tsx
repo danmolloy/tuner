@@ -7,9 +7,9 @@ const premiumList: string[] = [
   "Alternative temperaments",
   "Alternate guitar and bass tunings",
   "Drone mode",
-  "Alternative meters",
+  /* "Alternative meters",
   "Alternative colour schemes",
-  "Interactive about section",
+  "Interactive about section", */
 ]
 
 export default function UpgradePage() {

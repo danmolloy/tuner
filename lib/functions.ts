@@ -44,7 +44,12 @@ export function freqToNote({frequency, calibration, temperament, temperamentRoot
   detectedFrequency: number
     targetFrequency: number;
 
-} {
+}|null {
+
+  if (!frequency || frequency < 16.35) {
+  return null; // or { note: null, octave: null, ... }
+}
+
   const A4 = calibration;
   if (temperament !== 'Equal' && temperamentRoot !== undefined) {
     const ratios = getTemperamentRatios(temperament, temperamentRoot);
@@ -71,7 +76,7 @@ export function freqToNote({frequency, calibration, temperament, temperamentRoot
       note: closestNote,
       octave: closestOctave,
       detectedFrequency: frequency,
-       targetFrequency:  closestFreq
+      targetFrequency:  closestFreq
     };
   }
 
@@ -80,6 +85,7 @@ export function freqToNote({frequency, calibration, temperament, temperamentRoot
 
   const noteIndex = midiNumber % 12; 
   const octave = Math.floor(midiNumber / 12) - 1;
+  
   const noteName = noteNames[noteIndex];
 
   const targetFrequency = noteToFreq({
@@ -121,7 +127,10 @@ export function noteToFreq({note, octave, calibration, temperament, temperamentR
     return frequency;
   }
   const noteIndex = noteNames.indexOf(note);
-  if (noteIndex < 0) throw new Error('Invalid note name');
+  if (noteIndex < 0) {
+   
+    throw new Error('Invalid note name');
+  }
   const midiNumber = (octave + 1) * 12 + noteIndex;
 
   const frequency = A4 * Math.pow(2, (midiNumber - 69) / 12);
