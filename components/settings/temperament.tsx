@@ -1,4 +1,5 @@
 import { Temperament } from "@/lib/functions";
+import { usePurchase } from "@/lib/purchaseProvider";
 import { colors, globalStyles, radii, spacing } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
@@ -11,6 +12,7 @@ export const TEMPERAMENT_ROOT = '@tuner_root';
 const DEFAULT_TEMPERAMENT = 'Equal';
 
 export default function TemperamentSelect() {
+  const isProUser = usePurchase();
        const [temperament, setTemperament] = useState<Temperament>(DEFAULT_TEMPERAMENT);
 
   useEffect(() => {
@@ -22,6 +24,10 @@ export default function TemperamentSelect() {
   }, []);
 
   const handleSelect = async (value: Temperament) => {
+    if (!isProUser) {
+      Alert.alert("Alternative and historical temperaments are only available for premium users. To make a purchase or restore purchase, navigate to the Premium tab on the bottom of your screen.")
+      return;
+    }
     if (value === "Just" || value === "Pythagorean" ||value ===  "Meantone" ||value ===  "Werckmeister") {
       setTemperament(value);
       await AsyncStorage.setItem(TEMPERAMENT_KEY, value);

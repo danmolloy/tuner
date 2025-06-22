@@ -1,6 +1,7 @@
+import { usePurchase } from '@/lib/purchaseProvider';
 import { globalStyles } from '@/lib/themes';
 import Fontisto from '@expo/vector-icons/Fontisto';
-import { Dimensions, Pressable, StyleSheet, View } from "react-native";
+import { Alert, Dimensions, Pressable, StyleSheet, View } from "react-native";
 
 export default function RecordingBtn({recording, stopRecording, startRecording, tunerMode, playDrone, setPlayDrone}: {
   tunerMode: "Detect" | "Target" | "Drone"
@@ -10,12 +11,18 @@ export default function RecordingBtn({recording, stopRecording, startRecording, 
 stopRecording: () => void;
     startRecording: () => void;
 }) {
+  const isProUser = usePurchase();
+
   return (
     <View style={styles.container}>
     {tunerMode === "Drone" 
     ? <Pressable
       style={styles.pressable}
-                 onPress={() => setPlayDrone(playDrone === true ? false : true)}
+                 onPress={() => {
+                  !isProUser 
+                  ? Alert.alert("Drone mode is available for premium users only. To make a purchase or restore purchase, navigate to the Premium tab on the bottom of your screen.")
+                  : setPlayDrone(playDrone === true ? false : true);
+                }}
                >
                {playDrone === true 
                ? <Fontisto name="pause" size={24} color={"black"} style={{ marginRight: 5}} />

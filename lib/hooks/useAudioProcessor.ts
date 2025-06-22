@@ -71,7 +71,7 @@ const detector = useRef(PitchDetector.forFloat32Array(4096)).current;
             const [pitch, clarity] = detector.findPitch(chunk, 44100);
 
             const changed =
-              Math.abs((lastFreqRef.current ?? 0) - pitch) > 0.5 ||
+              Math.abs((lastFreqRef.current ?? 0) - pitch) > 0.01  ||
               Math.abs((lastClarityRef.current ?? 0) - clarity) > 0.01;
 
             if (changed) {

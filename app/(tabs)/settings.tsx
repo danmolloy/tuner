@@ -11,10 +11,10 @@ export default function SettingsScreen() {
     <ScrollView style={styles.container}>
       <Text style={styles.headerText}>Settings</Text>
       <View style={styles.settingContainer}>
+      <MeterSelect />
       <CalibrationInput />
       <TemperamentSelect />
       <TunerSelect />
-      <MeterSelect />
       </View>
     </ScrollView>
   )

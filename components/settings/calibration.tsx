@@ -1,3 +1,4 @@
+import { usePurchase } from "@/lib/purchaseProvider";
 import { colors, globalStyles, radii, spacing } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -7,6 +8,7 @@ export const CALIBRATION_KEY = '@tuner_calibration';
 const DEFAULT_CALIBRATION = '440';
 
 export default function CalibrationInput() {
+  const  isProUser = usePurchase();
       const [calibration, setCalibration] = useState(DEFAULT_CALIBRATION);
 
     useEffect(() => {
@@ -18,6 +20,10 @@ export default function CalibrationInput() {
   }, []);
 
    const handleEndEditing = async () => {
+    if (!isProUser) {
+      Alert.alert("Alternative calibrations are only available for premium users. To make a purchase or restore purchase, navigate to the Premium tab on the bottom of your screen.")
+      return;
+    }
     const num = parseFloat(calibration);
     if (!isNaN(num) && num >= 400 && num <= 480) {
       await AsyncStorage.setItem(CALIBRATION_KEY, calibration);

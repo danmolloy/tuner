@@ -1,7 +1,7 @@
 import { centsFromNote, noteToFreq } from "@/lib/functions";
 import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { colors, globalStyles, radii, spacing } from "@/lib/themes";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
 import InputSignal from "../inputSignal";
 import Octave from "../octave";
@@ -19,9 +19,7 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
   setSelectedPitch: (arg: string) => void
   setSelectedOctave: (arg: number| null) => void
   selectedOctave: number|null }) {
-
         const { tunerType, calibration, temperament, temperamentRoot } = useAppSettings();
-    const [currentCents, setCurrentCents] = useState<number|null>(null)
 
   const TICK_COUNT = 51;
   const meterWidth = Dimensions.get("window").width * 0.95;
@@ -44,8 +42,8 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
       });
 
   const cents = centsFromNote(note.detectedFrequency, targetFreq);
-  setCurrentCents(cents)
-    if (Math.abs(cents) > 100 && tunerType === "Chromatic") return;
+
+  if (Math.abs(cents) > 100 && tunerType === "Chromatic") return;
 
  const clamped = Math.max(-25, Math.min(25, cents));
   const needleIndex = clamped + 25; // shift to [0, 50]
@@ -58,8 +56,8 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
   }).start(); */
    Animated.spring(needleX, {
     toValue: left,
-  stiffness: 75,
-  damping: 25,
+  stiffness: 15,
+  damping: 100,
   mass: 1,
   overshootClamping: true,
   useNativeDriver: false,

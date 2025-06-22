@@ -6,12 +6,14 @@ import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { usePurchase } from '@/lib/purchaseProvider';
 import { typography } from '@/lib/themes';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const isProUser = usePurchase();
 
   return (
     <Tabs
@@ -58,6 +60,7 @@ export default function TabLayout() {
         options={{
           title: 'Upgrade',
           tabBarIcon: ({ color }) => <FontAwesome name="rocket" size={28} color={color} />,
+          href: isProUser ? null : "/(tabs)/upgrade"
         }}
       />
     </Tabs>
