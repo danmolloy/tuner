@@ -1,7 +1,7 @@
 import { centsFromNote, noteToFreq } from "@/lib/functions";
 import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { colors, globalStyles, spacing, typography } from "@/lib/themes";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Animated, {
   Easing,

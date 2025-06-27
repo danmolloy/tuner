@@ -1,6 +1,6 @@
 import { centsFromNote, noteNames, noteToFreq } from "@/lib/functions";
 import { useAppSettings } from "@/lib/hooks/useAppSettings";
-import { borderWidths, colors, radii } from "@/lib/themes";
+import { colors, globalStyles, radii } from "@/lib/themes";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useEffect, useRef, useState } from "react";
@@ -14,7 +14,6 @@ import {
   Text,
   View
 } from "react-native";
-import StringSelect from "./stringSelect";
 
 
 const ITEM_WIDTH = 60; 
@@ -176,19 +175,10 @@ useEffect(() => {
 
   return (
     <View style={styles.panel}>
-      <StringSelect 
-        selectedString={selectedString} 
-        setSelectedString={setSelectedString} 
-        note={note} 
-        tunerType={tunerType} 
-        tunerMode={tunerMode} 
-        setSelectedPitch={setSelectedPitch} 
-        setSelectedOctave={setSelectedOctave} 
-        selectedPitch={selectedPitch} 
-        selectedOctave={selectedOctave}
-      />
+      
 
-      <View style={styles.container}>
+      <View style={{...globalStyles.panelOuter, ...styles.container}}>
+        <View style={{...globalStyles.panelInner, height: 90}}>
         <FlatList
           ref={flatListRef}
           getItemLayout={getItemLayout}
@@ -250,7 +240,8 @@ snapToInterval={tunerMode !== "Detect" ? ITEM_WIDTH : undefined}
 </Pressable>
           )}
         />
-          <FontAwesome style={{alignSelf: 'center'}} name="caret-up" size={24} color="black" />
+          <FontAwesome style={{alignSelf: 'center'}} name="caret-up" size={24} color={'red'} />
+      </View>
       </View>
     </View>
   );
@@ -258,20 +249,18 @@ snapToInterval={tunerMode !== "Detect" ? ITEM_WIDTH : undefined}
 
 const styles = StyleSheet.create({
   panel: {
-        backgroundColor: colors.backgroundLight,
     width: Dimensions.get("screen").width * .90,
     borderRadius: radii.md,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     height: 100,
-    marginBottom: -24,
     
   },
   tickMark: {
   width: 2,
   height: 24,
-  backgroundColor: colors.primary,
+  backgroundColor: 'black',
   marginBottom: -24,
   zIndex: 24,
   overflowY: 'visible'
@@ -283,13 +272,9 @@ accidental: {
   marginRight: -6,
 },
   container: {
-    height: 80,
     justifyContent: "center",
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: colors.backgroundPanel,
     width: COMPONENT_WIDTH,
-    borderRadius: radii.lg,
-    borderColor: colors.primary,
-    borderWidth: borderWidths.md,
     marginHorizontal: 4,
   },
   itemContainer: {
@@ -303,6 +288,6 @@ accidental: {
   },
   itemText: {
     fontSize: 24,
-    color: colors.primary
+    color: 'black'
   },
 });

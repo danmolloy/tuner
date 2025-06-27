@@ -3,8 +3,6 @@ import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { colors, globalStyles, radii, spacing } from "@/lib/themes";
 import React, { useEffect, useRef } from "react";
 import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
-import InputSignal from "../inputSignal";
-import Octave from "../octave";
 
 
 export default function AnalogueMeter({ selectedPitch, setSelectedOctave, selectedOctave, note, clarity }: { 
@@ -22,7 +20,7 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
         const { tunerType, calibration, temperament, temperamentRoot } = useAppSettings();
 
   const TICK_COUNT = 51;
-  const meterWidth = Dimensions.get("window").width * 0.95;
+  const meterWidth = Dimensions.get("window").width * 0.90;
   const SIDE_PADDING = 10;
   const drawingWidth = meterWidth - SIDE_PADDING * 2;
   const spacing = drawingWidth / (TICK_COUNT - 1);
@@ -70,107 +68,128 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
 
 
   return (
-    <View style={styles.panelContainer}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginHorizontal: 5, marginBottom: 6, width: meterWidth }}>
-            <Text style={{color: 'gray', alignSelf: 'flex-end'}}>{tunerType === "Chromatic" && tunerType.toUpperCase()}</Text>
-    <View style={{alignItems: 'flex-start', flexDirection: 'column', borderColor: 'gray', borderWidth: 1, width: 150,  padding: 2, borderRadius: radii.sm, }}>
-      <Text style={{marginLeft: 20, color: 'gray'}}>TARGET: {note?.targetFrequency.toFixed(3)}</Text>
-      <Text style={{color: 'gray'}}>DETECTED: {note?.detectedFrequency.toFixed(3)}</Text>
-    </View>
-            <InputSignal clarity={clarity} />
-      </View>
+  <View style={styles.panelContainer}>
+   
+    {/* Meter with recessed effect */}
+    <View style={{...globalStyles.panelOuter, ...styles.container, width: meterWidth }}>
+      {/* Meter surface */}
+      <View style={{...globalStyles.panelInner, ...styles.meterSurface}} />
       
-  <View style={[styles.container, { width: meterWidth }]}>
-  {/* Tick marks + labels */}
-  {Array.from({ length: TICK_COUNT }).map((_, i) => {
-    const isMajor = (i + 5) % 10 === 0;
-    const isCenter = i === 25;
-    const leftPos = SIDE_PADDING + i * spacing;
-    const label = -25 + i;
+      {/* Tick marks + labels */}
+      {Array.from({ length: TICK_COUNT }).map((_, i) => {
+        const isMajor = (i + 5) % 10 === 0;
+        const isCenter = i === 25;
+        const leftPos = SIDE_PADDING + i * spacing;
+        const label = -25 + i;
 
-    return (
-      <React.Fragment key={i}>
-        {/* Tick */}
-        <View
-          style={[
-            styles.tick,
-            {
-              left: leftPos,
-              height: isCenter ? 75 : isMajor ? 50 : 30,
-            },
-          ]}
-        />
+        return (
+          <React.Fragment key={i}>
+            <View
+              style={[
+                styles.tick,
+                {
+                  left: leftPos,
+                  height: isCenter ? 75 : isMajor ? 50 : 30,
+                },
+              ]}
+            />
+            {isMajor && (
+              <Text
+                style={{
+                  position: 'absolute',
+                  left: leftPos - 10,
+                  top: 2,
+                  fontSize: 12,
+                  width: 25,
+                  textAlign: 'center',
+                  color: 'black',
+                }}
+              >
+                {label}
+              </Text>
+            )}
+          </React.Fragment>
+        );
+      })}
 
-        {/* Label */}
-        {isMajor && (
-          <Text
-            style={{
-              position: 'absolute',
-              left: leftPos - 10,
-              top: 0,
-              fontSize: 10,
-              width: 20,
-              textAlign: 'center',
-              color: 'black',
-            }}
-          >
-            {label}
-          </Text>
-        )}
-      </React.Fragment>
-    );
-  })}
-
-  {/* Needle */}
-  <Animated.View
-    style={[
-      styles.needle,
-      {
-        left: 0,
-        transform: [{ translateX: needleX }],
-      },
-    ]}
-  />
-</View>
-      <Octave note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)}  selectedOctave={selectedOctave}/>
+      {/* Needle */}
+      <Animated.View
+        style={[
+          styles.needle,
+          {
+            left: 0,
+            transform: [{ translateX: needleX }],
+          },
+        ]}
+      />
     </View>
-  );
+    
+  </View>
+);
 }
 
 const styles = StyleSheet.create({
-  panelContainer: {
-        ...globalStyles.globalCard,
-        flexDirection: "column",
-        justifyContent: 'center',
-        width: Dimensions.get("screen").width * 0.97,
-        height: Dimensions.get("screen").width * 0.75,
-        position: "relative",
-        padding: spacing.xs,
-        marginTop: 24,
-
+ panelContainer: {
+    flexDirection: "column",
+    justifyContent: 'center',
+    alignItems: "center",
+    padding: spacing.sm,
+    width: Dimensions.get("screen").width * 0.95,
+    position: "relative",
   },
   container: {
-    borderWidth:1,
-    borderColor: "black",
-    height: 120,
+    width: '100%',
+    height: 150,
     justifyContent: "center",
     alignItems: "flex-end",
     position: "relative",
     paddingHorizontal: 1,
-    backgroundColor: colors.backgroundLight,
-    borderRadius: radii.md
+    borderRadius: radii.sm
+  },
+  meterSurface: {
+    position: 'absolute',
+    top: 2,
+    left: 2,
+    right: 2,
+    bottom: 2,
+    backgroundColor: colors.backgroundPanel, 
+    borderRadius: radii.sm ,
+    // Inner highlight
+
   },
   tick: {
-    width: 1.5,
+    width: 1,
     position: "absolute",
-    bottom: 0,
-    backgroundColor: "black",
+    bottom: 3,
+    backgroundColor: "rgba(0,0,0,0.7)",
   },
   needle: {
     position: "absolute",
     width: 2,
     height: 90,
     backgroundColor: "red",
-    bottom: 0,
+    bottom: 3,
+    zIndex: 10,
+  },
+  
+  frequencyDisplay: {
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+    width: 150,
+    padding: 2,
+  },
+  frequencyDisplayInner: {
+    width: '100%',
+    // Inner highlight
+    borderWidth: 1,
+    borderTopColor: '#f0f0f0',
+    borderLeftColor: '#f0f0f0',
+    borderRightColor: '#c0c0c0',
+    borderBottomColor: '#c0c0c0',
+  },
+  frequencyText: {
+    color: '#333', // Darker text for better contrast
+    fontSize: 12,
+    marginLeft: 12,
   },
 });

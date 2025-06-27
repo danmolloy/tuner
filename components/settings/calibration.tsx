@@ -1,7 +1,7 @@
 import { usePurchase } from "@/lib/purchaseProvider";
 import { colors, globalStyles, radii, spacing } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 
 export const CALIBRATION_KEY = '@tuner_calibration';
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: colors.backgroundLabel,
     borderRadius: radii.sm,
     padding: spacing.sm
   },

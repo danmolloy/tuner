@@ -1,15 +1,19 @@
+import Calibration from '@/components/calibration';
 import DroneSynth from '@/components/drone';
+import InputSignal from '@/components/inputSignal';
 import Meter from '@/components/meter';
 import AnalogueMeter from '@/components/meters/analogue';
-import ModeSelect from '@/components/modeSelect';
+import Octave from '@/components/octave';
 import PitchScroller from '@/components/pitchScroller';
 import RecordingBtn from '@/components/recordingBtn';
-import TemperamentCalibration from '@/components/temperament';
+import StringSelect from '@/components/stringSelect';
+import Temperament from '@/components/temperament';
+import TunerType from '@/components/tunerType';
 import { freqToNote, noteToFreq } from '@/lib/functions';
 import { useAppSettings } from '@/lib/hooks/useAppSettings';
 import { useAudioProcessor } from '@/lib/hooks/useAudioProcessor';
-import { colors, spacing, typography } from '@/lib/themes';
-import { useEffect, useMemo, useState } from 'react';
+import { colors, radii, spacing, typography } from '@/lib/themes';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 
 if (!global.atob) {
@@ -26,7 +30,7 @@ export default function HomeScreen() {
     temperamentRoot,
     meterType,
     tunerMode,
-    setTunerMode
+    tunerType
   } = useAppSettings();
 
   const [frequency, setFrequency] = useState<number | null>(null);
@@ -81,6 +85,25 @@ export default function HomeScreen() {
   return (
     <ScrollView>
       <View style={styles.indexContainer}>
+        <View style={{flexDirection: 'column', marginBottom: -24}}>
+        <TunerType />
+       <View style={{ flexDirection: 'row', justifyContent: 'space-evenly'}}>
+       <Calibration />
+       <Temperament />
+        </View>
+       </View>
+        <View style={{
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: colors.backgroundPrimary,
+          borderRadius: radii.sm,
+          paddingVertical: spacing.sm,
+          borderColor: colors.backgroundPanel,
+          borderWidth: 2,
+
+        }}>
+          <Octave note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedOctave={selectedOctave}/>
         {meterType === "Analogue" 
         ? <AnalogueMeter 
           clarity={clarity} 
@@ -107,20 +130,25 @@ export default function HomeScreen() {
           selectedPitch={selectedPitch}
           setSelectedPitch={(arg) => setSelectedPitch(arg)}
           note={note} />
-          <View style={{ marginTop: spacing.md, width: Dimensions.get("window").width * 0.95, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: "center"}}>
-       <TemperamentCalibration
-          calibration={calibration}
-          temperament={temperament}
-          temperamentRoot={temperamentRoot}
-        />
-        <ModeSelect
-          stopDrone={() => setPlayDrone(false)}
-          stopRecording={handleStop} 
-          tunerMode={tunerMode}
-          setTunerMode={setTunerMode} />
+          <View style={{flexDirection: 'row', justifyContent: 'flex-end', width: Dimensions.get("screen").width * .90, marginTop: -42, paddingBottom: 12}}>
+  <InputSignal clarity={clarity} />
+  
           </View>
+          {/* <FrequencyDisplay note={note} /> */}
+          <StringSelect 
+                  selectedString={selectedString} 
+                  setSelectedString={setSelectedString} 
+                  note={note} 
+                  tunerType={tunerType} 
+                  tunerMode={tunerMode} 
+                  setSelectedPitch={setSelectedPitch} 
+                  setSelectedOctave={setSelectedOctave} 
+                  selectedPitch={selectedPitch} 
+                  selectedOctave={selectedOctave}
+                />
+          </View>
+
         <RecordingBtn
-          tunerMode={tunerMode}
           playDrone={playDrone}
           setPlayDrone={(arg) => {setPlayDrone(arg); setSelectedOctave(4)}}
           recording={recording}
@@ -146,13 +174,12 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontFamily,
     flex: 1, 
     gap: spacing.md,
-    overflow: 'hidden',
-    backgroundColor: colors.primary,
+    backgroundColor: colors.backgroundPrimary,
 zIndex: 0,
     flexDirection: 'column',
-    justifyContent: "center",
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    paddingTop: spacing.sm,
+    paddingTop: spacing.lg,
     padding: spacing.sm,
     height: Dimensions.get("screen").height - 50,
   },

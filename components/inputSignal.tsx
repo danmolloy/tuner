@@ -1,7 +1,12 @@
+import { colors } from "@/lib/themes";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 
-export default function InputSignal({clarity}:    {clarity: number|null;}
-) {
+
+export default function InputSignal({clarity}:    
+  {
+    clarity: number|null;
+  }) {
   return (
      <View style={styles.container}>
                    <View style={{
@@ -13,8 +18,10 @@ export default function InputSignal({clarity}:    {clarity: number|null;}
                         width: 8, 
                         height: 8 * index, 
                         margin: 2, 
-                        backgroundColor: clarity! > (index * 0.01 + .94) ? 'black': 'gray',
-                        borderRadius: 3
+                        backgroundColor: clarity! > (index * 0.01 + .94) ? colors.backgroundPanel : '',
+                        borderRadius: 1,
+                        borderWidth: 1,
+                        borderColor: colors.backgroundPanel,
     
                       }}/>
                     ))}

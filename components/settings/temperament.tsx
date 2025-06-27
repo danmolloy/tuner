@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   container: {
      ...globalStyles.settingsContainer,
 
-              backgroundColor: colors.backgroundLight,
+              backgroundColor: colors.backgroundLabel,
               borderRadius: radii.sm,
               padding: spacing.sm
   },

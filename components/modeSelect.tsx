@@ -2,6 +2,7 @@ import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { globalStyles } from "@/lib/themes";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import React from "react";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 
 export default function ModeSelect({ 
@@ -17,6 +18,7 @@ export default function ModeSelect({
   const { tunerType } = useAppSettings();
 
   return (
+    <View style={globalStyles.panelOuter}>
     <View style={styles.iconContainer}>
       {tunerType === "Chromatic" && <Pressable onPress={() => {setTunerMode("Detect"); stopDrone();}}>
         <FontAwesome style={{padding: 2 }}  name="microphone" size={24} color={tunerMode === "Detect" ? "black" : "gray"} />
@@ -27,18 +29,17 @@ export default function ModeSelect({
             {tunerType !== "Chromatic" && <Pressable onPress={() => setTunerMode("Target")}>
       <Entypo style={{padding: 2 }}  name="note" size={24} color={tunerMode === "Target" ? "black" : "gray"} />
       </Pressable>}
-    </View>
+    </View></View>
   )
 }
 
 const styles = StyleSheet.create({
    iconContainer: {
-        ...globalStyles.globalCard,
+    ...globalStyles.panelInner,
     alignItems: "center",
     flexDirection: 'row',
     justifyContent: "space-evenly",
-            width: Dimensions.get("window").width * 0.45,
-        height: 60
-
+    width: Dimensions.get("window").width * 0.45,
+    height: 60
   },
 })
