@@ -30,7 +30,8 @@ export default function HomeScreen() {
     temperamentRoot,
     meterType,
     tunerMode,
-    tunerType
+    tunerType,
+    setTunerMode
   } = useAppSettings();
 
   const [frequency, setFrequency] = useState<number | null>(null);
@@ -96,14 +97,14 @@ export default function HomeScreen() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: colors.backgroundPrimary,
+          backgroundColor: colors.darkShade,
           borderRadius: radii.sm,
           paddingVertical: spacing.sm,
-          borderColor: colors.backgroundPanel,
-          borderWidth: 2,
+          //borderColor: colors.backgroundPanel,
+          //borderWidth: 2,
 
         }}>
-          <Octave note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedOctave={selectedOctave}/>
+          <Octave tunerMode={tunerMode} note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedOctave={selectedOctave}/>
         {meterType === "Analogue" 
         ? <AnalogueMeter 
           clarity={clarity} 
@@ -122,6 +123,9 @@ export default function HomeScreen() {
           note={note} 
         /> }
         <PitchScroller
+        temperamentRoot={temperamentRoot}
+        calibration={calibration}
+        temperament={temperament}
           selectedString={selectedString}
           setSelectedString={(arg) => setSelectedString(arg)}
           tunerMode={tunerMode}
@@ -149,7 +153,10 @@ export default function HomeScreen() {
           </View>
 
         <RecordingBtn
+        tunerMode={tunerMode}
+        tunerType={tunerType}
           playDrone={playDrone}
+          setTunerMode={(mode) => setTunerMode(mode)}
           setPlayDrone={(arg) => {setPlayDrone(arg); setSelectedOctave(4)}}
           recording={recording}
           startRecording={handleStart}
@@ -179,7 +186,7 @@ zIndex: 0,
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    paddingTop: spacing.lg,
+    paddingTop: spacing.xs,
     padding: spacing.sm,
     height: Dimensions.get("screen").height - 50,
   },

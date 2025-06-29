@@ -18,10 +18,10 @@ export default function InputSignal({clarity}:
                         width: 8, 
                         height: 8 * index, 
                         margin: 2, 
-                        backgroundColor: clarity! > (index * 0.01 + .94) ? colors.backgroundPanel : '',
+                        backgroundColor: clarity! > (index * 0.01 + .94) ? colors.lightShade : '',
                         borderRadius: 1,
                         borderWidth: 1,
-                        borderColor: colors.backgroundPanel,
+                        borderColor: colors.lightShade,
     
                       }}/>
                     ))}

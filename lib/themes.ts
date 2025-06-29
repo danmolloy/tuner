@@ -6,10 +6,12 @@ export const colors = {
   backgroundLight: "#f1faee", // off white, cards background
   text: "#457b9d", // off black, text & borders
   //backgroundDark: "#1F2937",
-  backgroundPrimary: "#31545e",
-  backgroundPanel: "#efe0d2",
-  backgroundLabel: "#b57c58",
-  accent: "#9e2e42",
+  backgroundPrimary: "#1b263b",
+  darkShade: "#415a77",
+  white: "#ffffff",
+  lightShade: "#e5e5e5",
+  accent: "red",
+  
   textPrimary: "#38192d",
   labelText: "#a8dadc",
   textSecondary: "#a8dadc", // Less important text
@@ -76,7 +78,7 @@ export const shadows = {
 
 export const globalStyles = StyleSheet.create({
   panelOuter: {
-      backgroundColor: colors.backgroundPanel, // Slightly darker gray for meter background
+      backgroundColor: colors.white,
       // Outer border for the recessed effect
       borderWidth: 1,
       borderTopColor: '#a0a0a0', // Darker on top
@@ -84,7 +86,7 @@ export const globalStyles = StyleSheet.create({
       borderRightColor: '#f8f8f8', // Lighter on right
       borderBottomColor: '#f8f8f8', // Lighter on bottom
       // Inner shadow effect
-      shadowColor: colors.backgroundPanel,
+      shadowColor: colors.lightShade,
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
@@ -93,7 +95,7 @@ export const globalStyles = StyleSheet.create({
     },
     panelInner: {
       width: '100%',
-      backgroundColor: colors.backgroundPanel, 
+      backgroundColor: colors.white, 
       borderWidth: 1,
       borderTopColor: '#f0f0f0',
       borderLeftColor: '#f0f0f0',
@@ -104,7 +106,6 @@ export const globalStyles = StyleSheet.create({
   globalCard: {
     //borderWidth: borderWidths.sm,
        // borderColor: colors.text,
-        backgroundColor: colors.backgroundLabel,
         borderRadius: radii.lg,
         flexDirection: 'column',
     alignItems: 'center',

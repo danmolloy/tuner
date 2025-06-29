@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     left: 2,
     right: 2,
     bottom: 2,
-    backgroundColor: colors.backgroundPanel, 
+    backgroundColor: colors.white,
     borderRadius: radii.sm ,
     // Inner highlight
 
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 2,
     height: 90,
-    backgroundColor: "red",
+    backgroundColor: colors.accent,
     bottom: 3,
     zIndex: 10,
   },

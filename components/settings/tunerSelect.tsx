@@ -4,9 +4,8 @@ import { usePurchase } from "@/lib/purchaseProvider";
 import { colors, globalStyles, radii, spacing } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
-
 
 export const TUNER_TYPE_KEY = '@tuner_type';
 
@@ -16,7 +15,7 @@ const DEFAULT_TUNER_TYPE = 'Chromatic';
 export default function TunerSelect() {
   const isProUser = usePurchase();
   const [localTunerType, setLocalTunerType] = useState(DEFAULT_TUNER_TYPE);
-  const { setTunerMode, setTunerType } = useAppSettings();
+  const {  setTunerType } = useAppSettings();
 
   useEffect(() => {
     const loadTunerType = async () => {

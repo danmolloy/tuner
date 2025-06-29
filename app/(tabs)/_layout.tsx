@@ -4,10 +4,9 @@ import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { usePurchase } from '@/lib/purchaseProvider';
-import { typography } from '@/lib/themes';
+import { colors, typography } from '@/lib/themes';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 
@@ -18,7 +17,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: colors.darkShade,
         headerShown: false,
         headerTitleStyle: {
           fontFamily: typography.fontFamily

@@ -1,5 +1,4 @@
-import { centsFromNote, noteNames, noteToFreq } from "@/lib/functions";
-import { useAppSettings } from "@/lib/hooks/useAppSettings";
+import { centsFromNote, noteNames, noteToFreq, Temperament } from "@/lib/functions";
 import { colors, globalStyles, radii } from "@/lib/themes";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -25,13 +24,15 @@ const NOTE_COUNT = noteNames.length;
 export default function PitchScroller({ 
   note,
   setSelectedPitch,
-  selectedString,
-  setSelectedString,
+  temperament,
   tunerMode,
-  setSelectedOctave,
-  selectedOctave,
-  selectedPitch
+  calibration,
+  selectedPitch,
+  temperamentRoot
 }: {
+  calibration: number;
+  temperamentRoot: string;
+  temperament: Temperament;
   selectedOctave: number|null;
   selectedPitch: string;
   selectedString: number;
@@ -51,7 +52,6 @@ export default function PitchScroller({
   const [data] = useState(() => Array(BUFFER_MULTIPLIER).fill(noteNames).flat());
   const currentIndex = useRef(0);
 
-  const { tunerType, temperament, calibration, temperamentRoot } = useAppSettings();
   
   const displayedPitch = tunerMode === "Detect" && note?.note ? note.note : selectedPitch;
 
@@ -240,7 +240,7 @@ snapToInterval={tunerMode !== "Detect" ? ITEM_WIDTH : undefined}
 </Pressable>
           )}
         />
-          <FontAwesome style={{alignSelf: 'center'}} name="caret-up" size={24} color={'red'} />
+          <FontAwesome style={{alignSelf: 'center'}} name="caret-up" size={24} color={colors.accent} />
       </View>
       </View>
     </View>
@@ -273,7 +273,7 @@ accidental: {
 },
   container: {
     justifyContent: "center",
-    backgroundColor: colors.backgroundPanel,
+    backgroundColor: colors.white,
     width: COMPONENT_WIDTH,
     marginHorizontal: 4,
   },

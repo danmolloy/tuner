@@ -1,34 +1,33 @@
-import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { borderWidths, colors, radii, spacing } from "@/lib/themes";
 import React from "react";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function Octave({selectedOctave, setSelectedOctave, note}: {
+export default function Octave({tunerMode, selectedOctave, setSelectedOctave, note}: {
   setSelectedOctave: (arg: number | null) => void
+  tunerMode: "Detect"|"Target"|"Drone"
   selectedOctave: number|null
   note: {
     note: string;
     octave: number;
   } | null
 }) {
-  const { tunerMode} = useAppSettings();
+
   return (
     <View style={{
       ...styles.panel,
 
   }}>
       
-      <Text style={{color: colors.backgroundPanel, alignSelf: 'flex-start', marginLeft: spacing.md}}>OCTAVE</Text>
+      <Text style={{color: colors.lightShade, alignSelf: 'flex-start', marginLeft: spacing.md}}>{tunerMode}</Text>
     <View style={styles.container}>
       {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((oct) => (
         <Pressable 
           style={{
             ...styles.octave, 
-            backgroundColor: (selectedOctave === oct || ( selectedOctave === null && note?.octave === oct)) 
-            ? colors.backgroundPanel 
-            : colors.backgroundPanel,
+            backgroundColor: colors.darkShade,
             borderWidth: selectedOctave === oct ? borderWidths.sm : borderWidths.hairline,
 
+            borderColor: (selectedOctave === oct|| (selectedOctave === null && note?.octave === oct)) ? colors.white : colors.lightShade
           }}
           key={oct} 
           onPress={() => {
@@ -38,7 +37,11 @@ export default function Octave({selectedOctave, setSelectedOctave, note}: {
             selectedOctave === oct 
             ? setSelectedOctave(null) 
             : setSelectedOctave(oct)}}>
-            <Text style={{fontWeight: (selectedOctave === oct|| (selectedOctave === null && note?.octave === oct)) ? '700' : '400' ,}}>
+            <Text style={{
+              color: (selectedOctave === oct|| (selectedOctave === null && note?.octave === oct)) ? colors.white : colors.lightShade , 
+              fontWeight: (selectedOctave === oct|| (selectedOctave === null && note?.octave === oct)) ? "700" : "400" , 
+              
+              }}>
             {oct.toString()}
             </Text>
 
@@ -67,6 +70,6 @@ const styles = StyleSheet.create({
     height: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: radii.xl
+    borderRadius: radii.xl,
   }
 })

@@ -3,8 +3,8 @@ import MeterSelect from "@/components/settings/meterSelect";
 import TemperamentSelect from "@/components/settings/temperament";
 import TunerSelect from "@/components/settings/tunerSelect";
 import { borderWidths, colors, globalStyles, radii, spacing } from "@/lib/themes";
+import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-
 export default function SettingsScreen() {
 
   return (
@@ -23,7 +23,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     ...globalStyles.pageView,
-    backgroundColor: colors.primary
+    backgroundColor: colors.backgroundPrimary
     
   },
   headerText: {

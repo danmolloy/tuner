@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: Dimensions.get("screen").width *.40,
     padding: 2,
-    backgroundColor: colors.backgroundLabel
+    backgroundColor: colors.backgroundLight
   },
   frequencyDisplayInner: {
     width: '100%',

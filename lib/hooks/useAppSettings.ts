@@ -16,6 +16,7 @@ export function useAppSettings() {
   const [meterType, setMeterType] = useState<string>("Analogue");
     const [tunerMode, setTunerMode] = useState<"Detect" | "Target" | "Drone">("Detect");
 
+
   useEffect(() => {
     if (tunerType === "Chromatic") {
       setTunerMode("Detect")

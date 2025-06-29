@@ -20,10 +20,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
-    padding: spacing.sm
+    padding: spacing.xs
   },
   tempText: {
-    color: colors.backgroundPanel,
+    color: colors.lightShade,
     textAlign: 'center'
   }
 })
