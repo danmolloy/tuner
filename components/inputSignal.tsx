@@ -16,12 +16,12 @@ export default function InputSignal({clarity}:
                     {new Array(5).fill(null).map((_, index) => (
                       <View key={index} style={{
                         width: 8, 
-                        height: 8 * index, 
+                        height: (6 * index) + 8, 
                         margin: 2, 
-                        backgroundColor: clarity! > (index * 0.01 + .94) ? colors.lightShade : '',
-                        borderRadius: 1,
-                        borderWidth: 1,
-                        borderColor: colors.lightShade,
+                        backgroundColor: clarity! > (index * 0.01 + .94) ? colors.accentBlue : '',
+                        borderRadius: 2,
+                        borderWidth: 3,
+                        borderColor: colors.black,
     
                       }}/>
                     ))}

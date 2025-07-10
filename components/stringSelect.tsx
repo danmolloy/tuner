@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
+import { borderWidths, colors, radii, typography } from "@/lib/themes";
+import React from "react";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import GuitarPitch from "./guitarPitch";
 
 export default function StringSelect({note, tunerType, selectedString, setSelectedString, tunerMode, selectedOctave, selectedPitch, setSelectedPitch, setSelectedOctave}: {
@@ -29,13 +31,21 @@ const styles = StyleSheet.create({
         flexDirection: 'column',  
         alignItems: "center",
         justifyContent: 'center',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        backgroundColor: colors.accentBlue,
+        borderWidth: borderWidths.lg,
+        marginVertical: -32,
+        padding: 4,
+          width: Dimensions.get("window").width * .95,
+        borderRadius: radii.sm,
+
   },
   calibText: {
             
 
         fontSize: 12,
-        fontWeight: '500',
-        textAlign: 'center'
+        fontFamily: typography.fontMedium,
+        textAlign: 'center',
+        color: colors.lightShade
   }
 })

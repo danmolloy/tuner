@@ -3,10 +3,9 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
-import TabBarBackground from '@/components/ui/TabBarBackground';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { usePurchase } from '@/lib/purchaseProvider';
-import { colors, typography } from '@/lib/themes';
+import { borderWidths, colors, typography } from '@/lib/themes';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 
@@ -17,19 +16,29 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colors.darkShade,
-        headerShown: false,
-        headerTitleStyle: {
-          fontFamily: typography.fontFamily
+        tabBarLabelStyle: {
+          fontFamily: typography.fontSemiBold
         },
+        tabBarActiveTintColor: colors.accentBlue,
+        tabBarInactiveTintColor: colors.black,
+        headerShown: false,
+        
         tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
+        //tabBarBackground: TabBarBackground,
+        
         tabBarStyle: Platform.select({
           ios: {
             // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
+            backgroundColor: colors.backgroundCream,
+            borderTopWidth: borderWidths.lg,
+            borderColor: colors.black,
+            height: 54,
+            fontFamily: typography.fontRegular
           },
-          default: {},
+          default: {
+            backgroundColor: colors.backgroundCream
+          },
         }),
       }}>
       <Tabs.Screen
@@ -42,7 +51,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          
           title: 'Settings',
           tabBarIcon: ({ color }) => <FontAwesome name="cog" size={28} color={color} />,
         }}

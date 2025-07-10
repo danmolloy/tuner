@@ -1,13 +1,13 @@
 import { bassTunings, guitarTunings } from "@/lib/gtrTunings";
 import { useAppSettings } from "@/lib/hooks/useAppSettings";
 import { usePurchase } from "@/lib/purchaseProvider";
-import { colors, globalStyles, radii, spacing } from "@/lib/themes";
+import { TUNER_TYPE_KEY } from "@/lib/settingsKeys";
+import { colors, globalStyles, typography } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 
-export const TUNER_TYPE_KEY = '@tuner_type';
 
 const DEFAULT_TUNER_TYPE = 'Chromatic';
 
@@ -42,19 +42,19 @@ export default function TunerSelect() {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Tuner Type</Text>
+      <Text style={styles.label}>TUNER TYPE</Text>
       <Picker
         selectedValue={localTunerType}
         onValueChange={(itemValue) => handleSelect(itemValue)}
         style={styles.picker}
       >
-        <Picker.Item style={styles.pickerItem} label="Chromatic" value="Chromatic" />
+        <Picker.Item style={styles.pickerItem} label="CHROMATIC" value="Chromatic" />
         {guitarTunings.map(i => (
-          <Picker.Item style={styles.pickerItem} key={i.id} label={i.name} value={i.name} />
+          <Picker.Item style={styles.pickerItem} key={i.id} label={i.name.toUpperCase()} value={i.name} />
 
         ))}
         {bassTunings.map(i => (
-          <Picker.Item style={styles.pickerItem} key={i.id} label={i.name} value={i.name} />
+          <Picker.Item style={styles.pickerItem} key={i.id} label={i.name.toUpperCase()} value={i.name} />
 
         ))}
 
@@ -66,20 +66,22 @@ export default function TunerSelect() {
 
 const styles = StyleSheet.create({
   container: {
-   ...globalStyles.settingsContainer,
-    backgroundColor: colors.backgroundLight,
-    borderRadius: radii.sm,
-    padding: spacing.sm
   },
   label: {
     ...globalStyles.settingsLabel,
   },
   picker: {
-    backgroundColor: colors.backgroundLight,
-    borderRadius: 8,
+    ...globalStyles.settingsContainer,
 
+        fontFamily: typography.fontBold,
+        backgroundColor: colors.buttonPanelTeal,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 24,
   },
   pickerItem: {
-      color: colors.backgroundLight,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 24,
     }
 });

@@ -90,7 +90,8 @@ export default function ModeSwitch({
         <Ionicons
           name="volume-low"
           size={24}
-          color={tunerMode === "Drone" ? 'red' : colors.white}
+          color={tunerMode === "Drone" ? colors.buttonRed : colors.backgroundCream}
+          
         />
       </Pressable>
     </View>
@@ -100,11 +101,13 @@ export default function ModeSwitch({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: colors.backgroundPrimary,
+    backgroundColor: colors.black,
+    borderColor: colors.black,
+    borderWidth: 2,
     borderRadius: 20,
     padding: 2,
-    width: BUTTON_WIDTH * 2,
-    height: 50,
+    width: BUTTON_WIDTH * 2 + 3,
+    height: 54,
     position: "relative",
     overflow: "hidden",
   },
@@ -114,7 +117,7 @@ const styles = StyleSheet.create({
     left: 2,
     width: BUTTON_WIDTH - 4,
     height: 46,
-    backgroundColor: colors.lightShade,
+    backgroundColor: colors.backgroundCream,
     borderRadius: 16,
     zIndex: 0,
   },

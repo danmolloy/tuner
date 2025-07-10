@@ -1,11 +1,8 @@
-import { CALIBRATION_KEY } from "@/components/settings/calibration";
-import { METER_TYPE_KEY } from "@/components/settings/meterSelect";
-import { TEMPERAMENT_KEY, TEMPERAMENT_ROOT } from "@/components/settings/temperament";
-import { TUNER_TYPE_KEY } from "@/components/settings/tunerSelect";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Temperament } from "../functions";
+import { CALIBRATION_KEY, METER_TYPE_KEY, TEMPERAMENT_KEY, TEMPERAMENT_ROOT, TUNER_TYPE_KEY } from "../settingsKeys";
 
 
 export function useAppSettings() {

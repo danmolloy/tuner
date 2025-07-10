@@ -1,4 +1,4 @@
-import { borderWidths, colors, radii, spacing } from "@/lib/themes";
+import { borderWidths, colors, radii, typography } from "@/lib/themes";
 import React from "react";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -18,16 +18,16 @@ export default function Octave({tunerMode, selectedOctave, setSelectedOctave, no
 
   }}>
       
-      <Text style={{color: colors.lightShade, alignSelf: 'flex-start', marginLeft: spacing.md}}>{tunerMode}</Text>
     <View style={styles.container}>
       {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((oct) => (
         <Pressable 
           style={{
             ...styles.octave, 
-            backgroundColor: colors.darkShade,
-            borderWidth: selectedOctave === oct ? borderWidths.sm : borderWidths.hairline,
+            backgroundColor: (selectedOctave === oct|| (selectedOctave === null && note?.octave === oct)) ? colors.backgroundCream :colors.accentBlue,
+            borderWidth: borderWidths.md,
 
-            borderColor: (selectedOctave === oct|| (selectedOctave === null && note?.octave === oct)) ? colors.white : colors.lightShade
+            borderColor: colors.black,
+            
           }}
           key={oct} 
           onPress={() => {
@@ -38,8 +38,9 @@ export default function Octave({tunerMode, selectedOctave, setSelectedOctave, no
             ? setSelectedOctave(null) 
             : setSelectedOctave(oct)}}>
             <Text style={{
-              color: (selectedOctave === oct|| (selectedOctave === null && note?.octave === oct)) ? colors.white : colors.lightShade , 
-              fontWeight: (selectedOctave === oct|| (selectedOctave === null && note?.octave === oct)) ? "700" : "400" , 
+              color: colors.black, 
+              fontWeight: "400" , 
+              fontFamily: typography.fontSemiBold
               
               }}>
             {oct.toString()}
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
   panel: {
     flexDirection: 'column',
     alignItems: 'center',
-    width: Dimensions.get('screen').width * .80,
+    width: Dimensions.get('window').width * .80,
   },
   container: {
     flexDirection: 'row',
@@ -64,10 +65,9 @@ const styles = StyleSheet.create({
   },
   octave: {
     borderColor: colors.text,
-    padding: spacing.xs,
-    margin: 4,
-    width: 24,
-    height: 24,
+    margin: 1,
+    width: 28,
+    height: 28,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: radii.xl,

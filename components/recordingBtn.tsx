@@ -1,5 +1,5 @@
 import { usePurchase } from '@/lib/purchaseProvider';
-import { colors, radii, spacing } from '@/lib/themes';
+import { borderWidths, colors, radii, spacing } from '@/lib/themes';
 import Fontisto from '@expo/vector-icons/Fontisto';
 
 import React from 'react';
@@ -36,9 +36,9 @@ stopRecording: () => void;
       style={styles.pressable}
                  onPress={recording ? stopRecording : startRecording}
                >
-               <Fontisto name="power" size={24} color={recording ? colors.accent : colors.lightShade} style={{ marginRight: 5, padding: 1}} />
+               <Fontisto name="power" size={24} color={recording ? colors.buttonRed : colors.backgroundCream} style={{ marginRight: 5, padding: 1}} />
                </Pressable>}
-               <ModeSwitch setTunerMode={(arg) => setTunerMode(arg)} stopRecording={() => setPlayDrone(false)} tunerMode={tunerMode} tunerType={tunerType} setPlayDrone={(arg) => setPlayDrone(arg)}/>
+               <ModeSwitch setTunerMode={(arg) => setTunerMode(arg)} stopRecording={() => stopRecording()} tunerMode={tunerMode} tunerType={tunerType} setPlayDrone={(arg) => setPlayDrone(arg)}/>
       {/* {tunerType === "Chromatic" && <Pressable onPress={() => {setTunerMode("Detect"); setPlayDrone(false);}}>
                   {tunerMode == "Detect" 
                   ? <MaterialCommunityIcons name="microphone" size={32} color={colors.white} />
@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
 
   },
   container: {
-    backgroundColor: colors.darkShade,    
+    backgroundColor: colors.buttonPanelTeal,    
     //borderColor: colors.backgroundPanel,
     //borderWidth: 2,
-    width: Dimensions.get('screen').width * .95,
+    width: Dimensions.get('window').width * .95,
     height: 72,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 borderRadius: radii.sm,
           paddingVertical: spacing.sm,
-          
+                    borderColor: colors.black,
+                    borderWidth: borderWidths.lg,
   }
 })

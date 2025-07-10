@@ -1,5 +1,5 @@
 import { useAppSettings } from "@/lib/hooks/useAppSettings";
-import { colors, spacing } from "@/lib/themes";
+import { colors, spacing, typography } from "@/lib/themes";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -14,16 +14,16 @@ export default function Calibration() {
 }
 
 const styles = StyleSheet.create({
-
   temperamentContainer: {
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        padding: spacing.xs
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: spacing.xs
   },
   tempText: {
-          color: colors.lightShade,
-
+    color: colors.black,
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fontExtraBold,
     textAlign: 'center'
   }
 })

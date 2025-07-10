@@ -218,7 +218,7 @@ useEffect(() => {
 const styles = StyleSheet.create({
   panel: {
         backgroundColor: colors.lightShade,
-    width: Dimensions.get("screen").width * .90,
+    width: Dimensions.get("window").width * .90,
     borderRadius: radii.md,
     flexDirection: "row",
     alignItems: "center",

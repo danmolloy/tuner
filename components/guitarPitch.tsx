@@ -1,7 +1,7 @@
 import { BassStringNumber, bassTunings, GuitarStringNumber, guitarTunings } from "@/lib/gtrTunings";
 import { borderWidths, colors, radii, spacing, typography } from "@/lib/themes";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-
+import React from "react";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
 
 
@@ -48,11 +48,13 @@ const getTuning = (type: string | null): TuningMap => {
           <Pressable
                     style={{
                       ...styles.string, 
+                      borderColor: selectedString === Number(string) 
+                      ?colors.white : colors.lightShade,
                       backgroundColor: selectedString === Number(string) 
                       ? colors.textSecondary 
-                      : colors.backgroundLight,
+                      : colors.darkShade,
                       borderWidth: selectedString === Number(string)  ? borderWidths.sm : borderWidths.hairline,
-          
+                    
                     }}
                     key={string} 
                     onPress={() => {
@@ -66,7 +68,7 @@ const getTuning = (type: string | null): TuningMap => {
                         }
 }
                       }}>
-                      <Text style={{fontWeight: /* (selectedOctave === oct|| (selectedOctave === null && note?.octave === oct)) ? '700' : */ '400' ,}}>
+                      <Text style={{fontWeight: '400' , color:  selectedString !== Number(string) ? colors.white : colors.backgroundPrimary}}>
                       {string.toString()}
                       </Text>
           
@@ -98,11 +100,14 @@ const styles = StyleSheet.create({
      
         flexDirection: 'row',
         flexWrap: 'wrap',
-        width: 100
+        alignItems: 'center',
+        justifyContent: 'center',
+      width: Dimensions.get('window').width * .95
+
   },
   noteText: {
     fontSize: 48, 
-    fontFamily: typography.fontFamily,
+    fontFamily: typography.fontBold,
     marginRight: 8, // Add spacing between note and picker
   },
 

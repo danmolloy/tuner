@@ -106,7 +106,11 @@ bufferRef.current = combined.slice(4096);
   }, []);
 
   const start = async () => {
-    AudioRecord.start();
+          const { granted } = await requestRecordingPermissionsAsync();
+if (granted) {
+
+  AudioRecord.start();
+}
   };
 
   const stop = async () => {

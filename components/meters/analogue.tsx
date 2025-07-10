@@ -1,6 +1,6 @@
 import { centsFromNote, noteToFreq } from "@/lib/functions";
 import { useAppSettings } from "@/lib/hooks/useAppSettings";
-import { colors, globalStyles, radii, spacing } from "@/lib/themes";
+import { colors, globalStyles, radii, spacing, typography } from "@/lib/themes";
 import React, { useEffect, useRef } from "react";
 import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
 
@@ -48,14 +48,15 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
   const left = SIDE_PADDING + needleIndex * spacing;
 
   /* Animated.timing(needleX, {
-    toValue: left,
-    duration: 100,
-    useNativeDriver: false,
-  }).start(); */
+  toValue: left,
+  duration: 50,
+  easing: Easing.out(Easing.cubic),
+  useNativeDriver: false,
+}).start(); */
    Animated.spring(needleX, {
     toValue: left,
-  stiffness: 15,
-  damping: 100,
+  stiffness: 75,
+  damping: 10,
   mass: 1,
   overshootClamping: true,
   useNativeDriver: false,
@@ -71,7 +72,12 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
   <View style={styles.panelContainer}>
    
     {/* Meter with recessed effect */}
-    <View style={{...globalStyles.panelOuter, ...styles.container, width: meterWidth }}>
+    <View style={{
+      /* ...globalStyles.panelOuter,  */
+      ...styles.container, 
+      width: meterWidth,
+      
+      }}>
       {/* Meter surface */}
       <View style={{...globalStyles.panelInner, ...styles.meterSurface}} />
       
@@ -98,11 +104,13 @@ export default function AnalogueMeter({ selectedPitch, setSelectedOctave, select
                 style={{
                   position: 'absolute',
                   left: leftPos - 10,
-                  top: 2,
+                  top: 4,
                   fontSize: 12,
                   width: 25,
                   textAlign: 'center',
                   color: 'black',
+                  fontWeight: '900',
+                  fontFamily: typography.fontBold
                 }}
               >
                 {label}
@@ -134,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: "center",
     padding: spacing.sm,
-    width: Dimensions.get("screen").width * 0.95,
+    width: Dimensions.get("window").width * 0.95,
     position: "relative",
   },
   container: {
@@ -152,23 +160,23 @@ const styles = StyleSheet.create({
     left: 2,
     right: 2,
     bottom: 2,
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundCream,
     borderRadius: radii.sm ,
     // Inner highlight
 
   },
   tick: {
-    width: 1,
+    width: 2,
     position: "absolute",
     bottom: 3,
     backgroundColor: "rgba(0,0,0,0.7)",
   },
   needle: {
     position: "absolute",
-    width: 2,
+    width: 3,
     height: 90,
-    backgroundColor: colors.accent,
-    bottom: 3,
+    backgroundColor: colors.backgroundRed,
+    bottom: 6,
     zIndex: 10,
   },
   

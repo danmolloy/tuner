@@ -1,10 +1,10 @@
 import { usePurchase } from "@/lib/purchaseProvider";
-import { colors, globalStyles, radii, spacing } from "@/lib/themes";
+import { CALIBRATION_KEY } from "@/lib/settingsKeys";
+import { colors, globalStyles, typography } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 
-export const CALIBRATION_KEY = '@tuner_calibration';
 const DEFAULT_CALIBRATION = '440';
 
 export default function CalibrationInput() {
@@ -35,7 +35,7 @@ export default function CalibrationInput() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Calibration (Hz)</Text>
+      <Text style={styles.label}>CALIBRATION (HZ)</Text>
       <TextInput
         style={styles.input}
         keyboardType="numeric"
@@ -51,24 +51,21 @@ export default function CalibrationInput() {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: colors.backgroundLabel,
-    borderRadius: radii.sm,
-    padding: spacing.sm
+   paddingBottom: 12,
   },
   label: {
     ...globalStyles.settingsLabel,
     
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#aaa',
+       ...globalStyles.settingsContainer,
+    
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
-    fontSize: 16,
-    backgroundColor: '#fff',
+    fontSize: 24,
+    fontFamily: typography.fontBold,
+    backgroundColor: colors.meterPanelYellow
     
   },
 });

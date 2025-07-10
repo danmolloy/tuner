@@ -11,8 +11,6 @@ import Animated, {
   withTiming
 } from "react-native-reanimated";
 import Svg, { Circle, Path } from "react-native-svg";
-import InputSignal from "./inputSignal";
-import Octave from "./octave";
 
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -55,7 +53,7 @@ if (Math.abs(result) > 100 && tunerType === "Chromatic") return 0;
         
 
 
-  const size = Dimensions.get("screen").width * 0.65;
+  const size = Dimensions.get("window").width * 0.65;
   const radius = size / 2 - 20;
   const centre = size / 2;
   
@@ -129,7 +127,6 @@ useEffect(() => {
 
   return (
     <View style={styles.meterContainer}>
-      <Text style={{color: 'gray', }}>{tunerType === "Chromatic" && tunerType.toUpperCase()}</Text>
       <Svg width={size} height={size / 1.2}>
         {/* Background arc */}
 <AnimatedPath
@@ -154,11 +151,7 @@ useEffect(() => {
       <View style={[StyleSheet.absoluteFill, styles.textContainer]}>
 <Text style={styles.centsText}>{Math.round(cents) || 0}</Text>
         <Text style={styles.centsLabel}>CENTS</Text>
-        <View style={{alignItems: 'flex-start', flexDirection: 'column',  width: 160,  padding: 2, borderRadius: 6, }}>
-              
-        <Text style={{fontSize: typography.fontSize.md}}>DETECTED: {note?.detectedFrequency.toFixed(2)}</Text>
-        <Text style={{fontSize: typography.fontSize.md}}>TARGET: {targetFreq !== 0 && targetFreq.toFixed(2)}</Text>
-            </View>
+ 
        
       </View>
       <View style={{
@@ -166,9 +159,7 @@ useEffect(() => {
         marginTop: -32,
         marginRight: 12
       }}>
-      <InputSignal clarity={clarity} />
       </View>
-      <Octave note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)}  selectedOctave={selectedOctave}/>
     </View>
   );
 }
@@ -178,10 +169,11 @@ const styles = StyleSheet.create({
     ...globalStyles.globalCard,
     flexDirection: "column",
     justifyContent: 'center',
-    width: Dimensions.get("screen").width * 0.9,
-    height: Dimensions.get("screen").width * 0.75,
+
+    padding: spacing.sm,
+    width: Dimensions.get("window").width * 0.95,    
+    height: Dimensions.get("window").width * 0.75,
     position: "relative",
-    padding: spacing.xs,
   },
   textContainer: {
     justifyContent: "center",

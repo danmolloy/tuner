@@ -1,46 +1,61 @@
 import { borderWidths, colors, globalStyles, radii, spacing, typography } from '@/lib/themes';
+import { Image } from 'expo-image';
 import { Link } from 'expo-router';
+import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function HowToUsePage() {
   return (
     <ScrollView style={styles.container}>
-      <Text style={{...globalStyles.headerText, color: colors.backgroundLight}}>About</Text>
+      <Image
+        source={require("../../../assets/images/about.png")}
+        contentFit="contain"
+        style={{ width: 1024/3, height: 228/3, }}
+      />  
       <View style={styles.textContainer}>
-      <Text style={styles.textBody}>This tuner is designed to be approachable for beginner musicians as well as accurate and rebust enough for professionals. It utilises a highly effective pitch detection library named <Link style={styles.link} href="https://www.npmjs.com/package/pitchy">Pitchy</Link>, built upon the <Link style={styles.link} href='http://www.cs.otago.ac.nz/tartini/papers/A_Smarter_Way_to_Find_Pitch.pdf'>McLeod Pitch Method</Link>.</Text>
+      <Text style={{...styles.textBody}}>THIS TUNER IS DESIGNED TO BE APPROACHABLE FOR BEGINNER MUSICIANS AS WELL AS ACCURATE AND REBUST ENOUGH FOR PROFESSIONALS. IT UTILISES A HIGHLY EFFECTIVE PITCH DETECTION LIBRARY NAMED <Link style={styles.link} href="https://www.npmjs.com/package/pitchy">PITCHY</Link>, BUILT UPON THE <Link style={styles.link} href='http://www.cs.otago.ac.nz/tartini/papers/A_Smarter_Way_to_Find_Pitch.pdf'>MCLEOD PITCH METHOD</Link>.</Text>
+      </View>
       <View style={styles.pageSection}>
-      <Text style={styles.h2}>Modes</Text>
+      <Text style={styles.h2}>MODES</Text>
+            <View style={styles.textContainer}>
       <Text style={styles.h3} >DETECT MODE</Text>
-      <Text style={styles.textBody}>For most users, this is the default mode. The tuner automatically detects the pitch of the note you play. The meter shows the nearest note name, octave, and how many cents sharp or flat you are (100 cents = 1 semitone). For further accuracy, the detected and target frequencies are shown to three decimal points.</Text>
+      <Text style={styles.textBody}>FOR MOST USERS, THIS IS THE DEFAULT MODE. THE TUNER AUTOMATICALLY DETECTS THE PITCH OF THE NOTE YOU PLAY. THE METER SHOWS THE NEAREST NOTE NAME, OCTAVE, AND HOW MANY CENTS SHARP OR FLAT YOU ARE (100 CENTS = 1 SEMITONE). FOR FURTHER ACCURACY, THE DETECTED AND TARGET FREQUENCIES ARE SHOWN TO THREE DECIMAL POINTS.</Text>
       <Text style={styles.h3} >TARGET MODE</Text>
-      <Text style={styles.textBody}>Manually select a target pitch and octave (or in Guitar/Bass mode, select a string). The meter will lock into the prescribed pitch. Tune slowly and use this setting with caution! You may seem far away but can very quickly overshoot your pitch.</Text>
-      <Text style={styles.textBody}>This mode is particularly useful when you are far from the desired pitch, such as on a newly strung instrument.</Text>
-      <Text style={styles.h3} >DRONE MODE (Premium)</Text>
-      <Text style={styles.textBody}>The tuner plays a continuous tone at your selected pitch. Use this to match pitch by ear or improve intonation and listening skills.</Text>
+      <Text style={styles.textBody}>MANUALLY SELECT A TARGET PITCH AND OCTAVE (OR IN GUITAR/BASS MODE, SELECT A STRING). THE METER WILL LOCK INTO THE PRESCRIBED PITCH. TUNE SLOWLY AND USE THIS SETTING WITH CAUTION! YOU MAY SEEM FAR AWAY BUT CAN VERY QUICKLY OVERSHOOT YOUR PITCH.</Text>
+      <Text style={styles.textBody}>THIS MODE IS PARTICULARLY USEFUL WHEN YOU ARE FAR FROM THE DESIRED PITCH, SUCH AS ON A NEWLY STRUNG INSTRUMENT.</Text>
+      <Text style={styles.h3} >DRONE MODE</Text>
+      <Text style={styles.textBody}>THE TUNER PLAYS A CONTINUOUS TONE AT YOUR SELECTED PITCH. USE THIS TO MATCH PITCH BY EAR OR IMPROVE INTONATION AND LISTENING SKILLS.</Text>
     </View>
     <View style={styles.pageSection}>
-      <Text style={styles.h2}>Tuner Type</Text>
-      <Text style={styles.h3} >Chromatic</Text>
-      <Text style={styles.textBody}>This is the default tuner and generally suggested to all users unless tuning a guitar or bass guitar.</Text>
-      <Text style={styles.h3} >Guitar & Bass Guitar</Text>
-      <Text style={styles.textBody}>The default mode is Target Mode (see above).</Text>
+      <Text style={styles.h2}>TUNER TYPE</Text>
+                  <View style={styles.textContainer}>
+
+      <Text style={styles.h3} >CHROMATIC</Text>
+      <Text style={styles.textBody}>THIS IS THE DEFAULT TUNER AND GENERALLY SUGGESTED TO ALL USERS UNLESS TUNING A GUITAR OR BASS GUITAR.</Text>
+      <Text style={styles.h3} >GUITAR & BASS GUITAR</Text>
+      <Text style={styles.textBody}>THE DEFAULT MODE IS TARGET MODE (SEE ABOVE).</Text>
+      </View>
     </View>
     <View style={styles.pageSection}>
-    <Text style={styles.h2}>Calibration & Temperament</Text>
-    <Text style={styles.h3}>CALIBRATION (Premium)</Text>
-    <Text style={styles.textBody}>Adjust from A=415 to A=450 Hz. If unsure, use A=440 Hz (modern standard).</Text>
-    <Text style={styles.h3}>TEMPERAMENT (Premium)</Text>
-    <Text style={styles.textBody}>Choose from a variety of historical and alternative temperaments. Equal Temperament is the modern default, however this app offers the possibility to explore other temperaments for period-accuracy or tonal variety.</Text>
-    </View>
-    <View style={styles.pageSection}>
+    <Text style={styles.h2}>CALIBRATION & TEMPERAMENT</Text>
+                      <View style={styles.textContainer}>
+
+    <Text style={styles.h3}>CALIBRATION</Text>
+    <Text style={styles.textBody}>ADJUST FROM A=415 TO A=450 HZ. IF UNSURE, USE A=440 HZ (MODERN STANDARD).</Text>
+    <Text style={styles.h3}>TEMPERAMENT</Text>
+    <Text style={styles.textBody}>CHOOSE FROM A VARIETY OF HISTORICAL AND ALTERNATIVE TEMPERAMENTS. EQUAL TEMPERAMENT IS THE MODERN DEFAULT, HOWEVER THIS APP OFFERS THE POSSIBILITY TO EXPLORE OTHER TEMPERAMENTS FOR PERIOD-ACCURACY OR TONAL VARIETY.</Text>
+    </View></View>
+    {/* <View style={styles.pageSection}>
     <Text style={styles.h2}>Interface & Preferences</Text>
     <Text style={styles.textBody}>This app currently offers alternative meter interfaces for all users, available in Settings.</Text>
-    </View>
+    </View> */}
     <View style={styles.pageSection}>
-    <Text style={styles.h2}>Final Notes</Text>
-    <Text style={styles.textBody}>If you enjoy the app, please consider leaving a review! This project was created to help beginners get comfortable with tuning, as well as allowing advanced users with fine-tune precision. Thanks for tuning in!</Text>
+    <Text style={styles.h2}>FINAL NOTES</Text>
+                          <View style={styles.textContainer}>
+
+    <Text style={styles.textBody}>IF YOU ENJOY THE APP, PLEASE CONSIDER LEAVING A REVIEW! THIS PROJECT WAS CREATED TO HELP BEGINNERS GET COMFORTABLE WITH TUNING, AS WELL AS ALLOWING ADVANCED USERS WITH FINE-TUNE PRECISION. THANKS FOR TUNING IN!</Text>
     </View>
-    </View>
+    </View></View>
     </ScrollView>
   );
 }
@@ -51,36 +66,38 @@ const styles = StyleSheet.create({
   },
   textBody: {
     fontSize: typography.fontSize.md,
+    fontFamily: typography.fontExtraBold,
+    marginVertical: spacing.sm
   },
   textContainer: {
-    backgroundColor: colors.backgroundLight,
-    borderColor: 'gray',
-        borderWidth: borderWidths.sm,
-         padding: spacing.md,
+         paddingHorizontal: spacing.sm,
         borderRadius: radii.md,
+        borderWidth: borderWidths.lg,
+        backgroundColor: colors.meterPanelYellow,
+        borderColor: colors.black,
         marginHorizontal: -8,
         marginVertical: 12
   },
   container: {
     ...globalStyles.pageView,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.backgroundRed
     
   },
   pageHeader: {
     ...globalStyles.headerText,
-    fontSize: 24,
   },
   pageSection: {
     marginVertical: 24,
   },
 
   h2: {
-    fontSize: 24,
-    fontWeight: '700',
+    fontSize: 32,
+    fontFamily: typography.fontExtraBold,
+    marginBottom: -6
   },
   h3: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 12,
+    fontSize: 24,
+    fontFamily: typography.fontExtraBold,
+    marginVertical: 12,
   },
 })

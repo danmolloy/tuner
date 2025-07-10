@@ -1,21 +1,22 @@
 import CalibrationInput from "@/components/settings/calibration";
-import MeterSelect from "@/components/settings/meterSelect";
 import TemperamentSelect from "@/components/settings/temperament";
 import TunerSelect from "@/components/settings/tunerSelect";
-import { borderWidths, colors, globalStyles, radii, spacing } from "@/lib/themes";
+import { colors, globalStyles, typography } from "@/lib/themes";
+import { Image } from "expo-image";
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet } from "react-native";
 export default function SettingsScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.headerText}>Settings</Text>
-      <View style={styles.settingContainer}>
-      <MeterSelect />
+      <Image
+              source={require("../../assets/images/settings.png")}
+              contentFit="contain"
+              style={{ width: 1024/3, height: 242/3, }}
+            />  
       <CalibrationInput />
       <TemperamentSelect />
       <TunerSelect />
-      </View>
     </ScrollView>
   )
 }
@@ -23,20 +24,12 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     ...globalStyles.pageView,
-    backgroundColor: colors.backgroundPrimary
-    
+    backgroundColor: colors.backgroundRed,
+    height: Dimensions.get("window").height,
   },
   headerText: {
     ...globalStyles.headerText,
-    color: colors.backgroundLight,
+    color: colors.black,
+    marginBottom: 0, marginTop: 12, fontFamily: typography.fontExtraBold, fontSize: 36
   },
-  settingContainer: {
-    borderColor: 'gray',
-    backgroundColor: colors.backgroundLight,
-            borderWidth: borderWidths.sm,
-             padding: spacing.md,
-            borderRadius: radii.md,
-            marginHorizontal: -8,
-            marginVertical: 12
-  }
 })

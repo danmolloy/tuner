@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   frequencyDisplay: {
     alignItems: 'flex-start',
     flexDirection: 'column',
-    width: Dimensions.get("screen").width *.40,
+    width: Dimensions.get("window").width *.40,
     padding: 2,
     backgroundColor: colors.backgroundLight
   },

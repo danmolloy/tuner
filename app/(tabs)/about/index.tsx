@@ -1,7 +1,7 @@
 import { borderWidths, colors, globalStyles, radii, spacing, typography } from '@/lib/themes';
+import React from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import HowToUsePage from './how-to-use';
-
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -16,35 +16,17 @@ export default function AboutIndex() {
     <HowToUsePage />
   );
 }
-{/* <View style={styles.container}>
-  <Text style={styles.headerText}>About</Text>
-  <Link style={styles.card} href="/about/how-to-use" asChild>
-    <TouchableOpacity>
-      <Text style={styles.cardLabel}>Using This App</Text>
-    </TouchableOpacity>
-  </Link>
 
-  <Link style={styles.card} href="/about/tuning-basics" asChild>
-    <TouchableOpacity>
-      <Text style={styles.cardLabel}>Tuning Basics</Text>
-    </TouchableOpacity>
-  </Link>
-  <Link style={styles.card} href="/about/tuning-history" asChild>
-    <TouchableOpacity>
-      <Text style={styles.cardLabel}>Tuning History</Text>
-    </TouchableOpacity>
-  </Link>
-</View> */}
 
 const styles = StyleSheet.create({
   container: {
     ...globalStyles.pageView,
-    height: Dimensions.get("screen").height - 50,
-    backgroundColor: colors.primary
+    height: Dimensions.get("window").height - 50,
+    backgroundColor: '#f5f3f4'
   },
   headerText: {
     ...globalStyles.headerText,
-    color: colors.backgroundLight
+    color: colors.backgroundPrimary
   },
   card: {
     borderColor: colors.backgroundLight,

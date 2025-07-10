@@ -15,6 +15,14 @@ export const colors = {
   textPrimary: "#38192d",
   labelText: "#a8dadc",
   textSecondary: "#a8dadc", // Less important text
+
+  backgroundRed: "#F44336",
+  meterPanelYellow: "#FDD421",
+  buttonPanelTeal: "#23BDD1",
+  accentBlue: "#1690F3",
+  buttonRed: "#E53935",
+  backgroundCream: "#FFF8E1",
+  black: "#000000"
 };
 
 export const radii = {
@@ -34,7 +42,11 @@ export const spacing = {
 };
 
 export const typography = {
-  fontFamily: "SpaceMono",
+   fontRegular: "PlaypenSans_400Regular",
+      fontMedium: "PlaypenSans_500Medium",
+      fontSemiBold:"PlaypenSans_600SemiBold",
+  fontBold: "PlaypenSans_700Bold",
+  fontExtraBold: "PlaypenSans_800ExtraBold",
   fontSize: {
     sm: 12,
     md: 16,
@@ -50,6 +62,7 @@ export const borderWidths = {
   sm: 1,
   md: 2,
   lg: 4,
+  xl: 6,
 };
 
 export const shadows = {
@@ -78,7 +91,7 @@ export const shadows = {
 
 export const globalStyles = StyleSheet.create({
   panelOuter: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.black,
       // Outer border for the recessed effect
       borderWidth: 1,
       borderTopColor: '#a0a0a0', // Darker on top
@@ -86,7 +99,7 @@ export const globalStyles = StyleSheet.create({
       borderRightColor: '#f8f8f8', // Lighter on right
       borderBottomColor: '#f8f8f8', // Lighter on bottom
       // Inner shadow effect
-      shadowColor: colors.lightShade,
+      shadowColor: colors.black,
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
@@ -96,11 +109,13 @@ export const globalStyles = StyleSheet.create({
     panelInner: {
       width: '100%',
       backgroundColor: colors.white, 
-      borderWidth: 1,
-      borderTopColor: '#f0f0f0',
-      borderLeftColor: '#f0f0f0',
-      borderRightColor: '#c0c0c0',
-      borderBottomColor: '#c0c0c0',
+      borderWidth: borderWidths.lg,
+      borderColor: colors.black,
+      borderRadius: radii.sm
+      //borderTopColor: '#f0f0f0',
+      //borderLeftColor: '#f0f0f0',
+      //borderRightColor: '#c0c0c0',
+      //borderBottomColor: '#c0c0c0',
       
     },
   globalCard: {
@@ -112,7 +127,6 @@ export const globalStyles = StyleSheet.create({
   },
   pageView: {
     padding: spacing.lg,
-    marginBottom: 50,
         backgroundColor: 'white',
     
   },
@@ -122,12 +136,17 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 16
   },
   settingsContainer: {
-     marginVertical: 16,
+     marginBottom: 16,
+          marginTop: 8,
+
     paddingHorizontal: 16,
+    borderColor: colors.black,
+    borderWidth: borderWidths.lg    
+
   },
   settingsLabel: {
-    fontSize: typography.fontSize.md,
-    fontWeight: '500',
-    marginVertical: 12,
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fontBold,
+    marginVertical: 4,
   }
 })

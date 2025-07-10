@@ -7,7 +7,7 @@ export default function TunerType() {
   const { tunerType} = useAppSettings();
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{`${tunerType.toUpperCase()}${tunerType === "Chromatic" && " TUNER"}`}</Text>
+      <Text style={styles.text}>{`${tunerType.toUpperCase()}${tunerType === "Chromatic" ? " TUNER" : ""}`}</Text>
     </View>
   )
 }

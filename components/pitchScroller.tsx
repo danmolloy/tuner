@@ -1,5 +1,5 @@
 import { centsFromNote, noteNames, noteToFreq, Temperament } from "@/lib/functions";
-import { colors, globalStyles, radii } from "@/lib/themes";
+import { colors, globalStyles, radii, typography } from "@/lib/themes";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useEffect, useRef, useState } from "react";
@@ -17,7 +17,7 @@ import {
 
 const ITEM_WIDTH = 60; 
 const COMPONENT_WIDTH = ITEM_WIDTH * 3;
-const CENTER_OFFSET = (COMPONENT_WIDTH - ITEM_WIDTH) / 2 -2.5; // -2 for border offset!
+const CENTER_OFFSET = (COMPONENT_WIDTH - ITEM_WIDTH) / 2 - 5; // -2 for border offset!
 const BUFFER_MULTIPLIER = 20; // Number of repetitions for infinite effect
 const NOTE_COUNT = noteNames.length;
 
@@ -62,7 +62,7 @@ export default function PitchScroller({
 const scrollToClosestNote = (
   targetNote: string,
   animated = true,
-  centOffset = 0 // cents: -50 (flat) to +50 (sharp)
+  centOffset = 0 // i.e. -50 (flat) to +50 (sharp)
 ) => {
   const targetBaseIndex = noteNames.indexOf(targetNote);
   if (targetBaseIndex === -1) {
@@ -177,8 +177,8 @@ useEffect(() => {
     <View style={styles.panel}>
       
 
-      <View style={{...globalStyles.panelOuter, ...styles.container}}>
-        <View style={{...globalStyles.panelInner, height: 90}}>
+      <View style={{/* ...globalStyles.panelOuter,  */...styles.container}}>
+        <View style={{...globalStyles.panelInner, height: 90, backgroundColor: colors.backgroundCream}}>
         <FlatList
           ref={flatListRef}
           getItemLayout={getItemLayout}
@@ -193,15 +193,16 @@ snapToInterval={tunerMode !== "Detect" ? ITEM_WIDTH : undefined}
           onMomentumScrollEnd={handleScrollEnd}
           renderItem={({ item }) => (
             <Pressable
-  disabled={tunerMode === "Detect"}
+            disabled={tunerMode === "Detect"}
   onPress={() => scrollToClosestNote(item)}
   style={[
     styles.itemContainer,
+    
     displayedPitch === item && styles.selected
   ]}
 >
   <View style={{ alignItems: "center", }}>
-    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
+    <View style={{  flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
     <Text
       style={{
         ...styles.itemText,
@@ -240,7 +241,7 @@ snapToInterval={tunerMode !== "Detect" ? ITEM_WIDTH : undefined}
 </Pressable>
           )}
         />
-          <FontAwesome style={{alignSelf: 'center'}} name="caret-up" size={24} color={colors.accent} />
+          <FontAwesome style={{alignSelf: 'center',}} name="caret-up" size={24} color={colors.accent} />
       </View>
       </View>
     </View>
@@ -249,7 +250,7 @@ snapToInterval={tunerMode !== "Detect" ? ITEM_WIDTH : undefined}
 
 const styles = StyleSheet.create({
   panel: {
-    width: Dimensions.get("screen").width * .90,
+    width: Dimensions.get("window").width * .90,
     borderRadius: radii.md,
     flexDirection: "row",
     alignItems: "center",
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
     
   },
   tickMark: {
-  width: 2,
+  width: 3,
   height: 24,
   backgroundColor: 'black',
   marginBottom: -24,
@@ -273,21 +274,23 @@ accidental: {
 },
   container: {
     justifyContent: "center",
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundCream,
     width: COMPONENT_WIDTH,
     marginHorizontal: 4,
+    borderRadius: radii.sm
   },
   itemContainer: {
     width: ITEM_WIDTH,
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   selected: {
     
   },
   itemText: {
     fontSize: 24,
-    color: 'black'
+    color: 'black',
+    fontFamily: typography.fontExtraBold
   },
 });

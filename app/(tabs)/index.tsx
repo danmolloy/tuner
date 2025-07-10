@@ -8,20 +8,19 @@ import PitchScroller from '@/components/pitchScroller';
 import RecordingBtn from '@/components/recordingBtn';
 import StringSelect from '@/components/stringSelect';
 import Temperament from '@/components/temperament';
-import TunerType from '@/components/tunerType';
+import TitleText from '@/components/titleText';
 import { freqToNote, noteToFreq } from '@/lib/functions';
 import { useAppSettings } from '@/lib/hooks/useAppSettings';
 import { useAudioProcessor } from '@/lib/hooks/useAudioProcessor';
-import { colors, radii, spacing, typography } from '@/lib/themes';
+import { borderWidths, colors, globalStyles, radii, spacing, typography } from '@/lib/themes';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 
 if (!global.atob) {
   global.atob = atob;
 }
 export const globalBorderWidth = 2;
 
-export const appName = "Tuner"
 
 export default function HomeScreen() {
   const {
@@ -84,25 +83,32 @@ export default function HomeScreen() {
   }, [tunerMode])
  
   return (
-    <ScrollView>
+    <View style={{
+      ...globalStyles.pageView,
+      flexDirection: "column",
+      height: Dimensions.get("window").height,
+      backgroundColor: colors.backgroundRed,
+    }}>
       <View style={styles.indexContainer}>
-        <View style={{flexDirection: 'column', marginBottom: -24}}>
-        <TunerType />
-       <View style={{ flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        <View>
+          <TitleText />
+        <View style={{flexDirection: 'column',}}>
+       <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: -30, width: Dimensions.get("window").width}}>
        <Calibration />
        <Temperament />
-        </View>
+        </View></View>
        </View>
         <View style={{
+
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: colors.darkShade,
-          borderRadius: radii.sm,
+          backgroundColor: colors.meterPanelYellow,
           paddingVertical: spacing.sm,
-          //borderColor: colors.backgroundPanel,
-          //borderWidth: 2,
-
+          borderRadius: radii.sm,
+          borderColor: colors.black,
+          borderWidth: borderWidths.lg,
+          width: Dimensions.get('window').width * .95
         }}>
           <Octave tunerMode={tunerMode} note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedOctave={selectedOctave}/>
         {meterType === "Analogue" 
@@ -134,12 +140,13 @@ export default function HomeScreen() {
           selectedPitch={selectedPitch}
           setSelectedPitch={(arg) => setSelectedPitch(arg)}
           note={note} />
-          <View style={{flexDirection: 'row', justifyContent: 'flex-end', width: Dimensions.get("screen").width * .90, marginTop: -42, paddingBottom: 12}}>
+          <View style={{flexDirection: 'row', justifyContent: 'flex-end', width: Dimensions.get("window").width * .90, marginTop: -42, paddingBottom: 12}}>
   <InputSignal clarity={clarity} />
   
           </View>
-          {/* <FrequencyDisplay note={note} /> */}
-          <StringSelect 
+          </View>
+          
+          {tunerType !== "Chromatic" && <StringSelect 
                   selectedString={selectedString} 
                   setSelectedString={setSelectedString} 
                   note={note} 
@@ -149,8 +156,7 @@ export default function HomeScreen() {
                   setSelectedOctave={setSelectedOctave} 
                   selectedPitch={selectedPitch} 
                   selectedOctave={selectedOctave}
-                />
-          </View>
+                />}
 
         <RecordingBtn
         tunerMode={tunerMode}
@@ -171,24 +177,25 @@ export default function HomeScreen() {
           calibration: calibration,
           temperamentRoot: temperamentRoot
         }))} />
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
 
   indexContainer: {
-    fontFamily: typography.fontFamily,
-    flex: 1, 
+    fontFamily: typography.fontRegular,
+    //flex: 1, 
     gap: spacing.md,
-    backgroundColor: colors.backgroundPrimary,
+    backgroundColor: colors.backgroundRed,
 zIndex: 0,
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
     paddingTop: spacing.xs,
+    paddingBottom: 16,
     padding: spacing.sm,
-    height: Dimensions.get("screen").height - 50,
+    height: Dimensions.get("window").height - 50,
   },
 
   stepContainer: {
@@ -198,7 +205,8 @@ zIndex: 0,
   recBtnContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    
   },
   
 });

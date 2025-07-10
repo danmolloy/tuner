@@ -1,13 +1,12 @@
 import { Temperament } from "@/lib/functions";
 import { usePurchase } from "@/lib/purchaseProvider";
-import { colors, globalStyles, radii, spacing } from "@/lib/themes";
+import { TEMPERAMENT_KEY, TEMPERAMENT_ROOT } from "@/lib/settingsKeys";
+import { colors, globalStyles, typography } from "@/lib/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 
-export const TEMPERAMENT_KEY = '@tuner_temperament';
-export const TEMPERAMENT_ROOT = '@tuner_root';
 
 const DEFAULT_TEMPERAMENT = 'Equal';
 
@@ -43,17 +42,17 @@ export default function TemperamentSelect() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Temperament</Text>
+      <Text style={styles.label}>TEMPERAMENT</Text>
       <Picker
         selectedValue={temperament}
         onValueChange={(itemValue: Temperament) => handleSelect(itemValue)}
         style={styles.picker}
       >
-        <Picker.Item style={styles.pickerItem} label="Equal Temperament" value="Equal" />
-        <Picker.Item style={styles.pickerItem} label="Just Temperament (C)" value="Just" />
-                <Picker.Item style={styles.pickerItem} label="Pythagorean Temperament (C)" value="Pythagorean" />
-        <Picker.Item style={styles.pickerItem} label="Meantone Temperament (C)" value="Meantone" />
-        <Picker.Item style={styles.pickerItem} label="Werckmeister Temperament (C)" value="Werckmeister" />
+        <Picker.Item style={styles.pickerItem} label="EQUAL TEMPERAMENT" value="Equal" />
+        <Picker.Item style={styles.pickerItem} label="JUST TEMPERAMENT (C)" value="Just" />
+                <Picker.Item style={styles.pickerItem} label="PYTHAGOREAN TEMPERAMENT (C)" value="Pythagorean" />
+        <Picker.Item style={styles.pickerItem} label="MEANTONE TEMPERAMENT (C)" value="Meantone" />
+        <Picker.Item style={styles.pickerItem} label="WERCKMEISTER TEMPERAMENT (C)" value="Werckmeister" />
 
       </Picker>
     </View>
@@ -62,22 +61,27 @@ export default function TemperamentSelect() {
 
 const styles = StyleSheet.create({
   container: {
-     ...globalStyles.settingsContainer,
 
-              backgroundColor: colors.backgroundLabel,
-              borderRadius: radii.sm,
-              padding: spacing.sm
+
   },
   label: {
     ...globalStyles.settingsLabel,
   },
   picker: {
-              backgroundColor: colors.backgroundLight,
+         ...globalStyles.settingsContainer,
+    backgroundColor: colors.backgroundCream,
     borderRadius: 8,
+        fontFamily: typography.fontBold,
+        padding: 4,
+        paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 24,
 
   },
   pickerItem: {
     color: colors.backgroundLight,
-    
-  }
+    fontFamily: typography.fontBold,
+paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 24,  }
 });

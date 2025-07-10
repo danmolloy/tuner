@@ -1,5 +1,5 @@
 import { useAppSettings } from "@/lib/hooks/useAppSettings";
-import { colors, spacing } from "@/lib/themes";
+import { colors, spacing, typography } from "@/lib/themes";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
     padding: spacing.xs
   },
   tempText: {
-    color: colors.lightShade,
-    textAlign: 'center'
+
+          color: colors.black,
+fontSize: typography.fontSize.lg,
+    fontFamily: typography.fontExtraBold,    textAlign: 'center'
   }
 })
