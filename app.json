@@ -2,7 +2,7 @@
   "expo": {
     "name": "chromatic-tuner",
     "slug": "chromatic-tuner",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/tuner-icon.png",
     "scheme": "chromatictuner",
@@ -11,7 +11,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.danmolloy.chromatictuner",
-      "buildNumber": "2",
+      "buildNumber": "3",
       "infoPlist": {
         "NSMicrophoneUsageDescription": "This app uses the microphone to detect pitch."
       }

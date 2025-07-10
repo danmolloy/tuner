@@ -8,11 +8,11 @@ import PitchScroller from '@/components/pitchScroller';
 import RecordingBtn from '@/components/recordingBtn';
 import StringSelect from '@/components/stringSelect';
 import Temperament from '@/components/temperament';
-import TitleText from '@/components/titleText';
 import { freqToNote, noteToFreq } from '@/lib/functions';
 import { useAppSettings } from '@/lib/hooks/useAppSettings';
 import { useAudioProcessor } from '@/lib/hooks/useAudioProcessor';
 import { borderWidths, colors, globalStyles, radii, spacing, typography } from '@/lib/themes';
+import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 
@@ -91,7 +91,17 @@ export default function HomeScreen() {
     }}>
       <View style={styles.indexContainer}>
         <View>
-          <TitleText />
+          <View style={{
+            marginTop: -24,
+    width: Dimensions.get("window").width,
+    flexDirection: "column",
+    alignItems: "center",
+          }}>
+  <Image
+    source={require("../../assets/images/title.png")}
+    contentFit="contain"
+    style={{ width: 977/2.25, height: 134/2.25, }}
+  />    </View>
         <View style={{flexDirection: 'column',}}>
        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: -30, width: Dimensions.get("window").width}}>
        <Calibration />

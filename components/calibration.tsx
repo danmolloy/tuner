@@ -8,7 +8,7 @@ export default function Calibration() {
   
   return (
     <View style={styles.temperamentContainer}>
-      <Text style={styles.tempText}>{calibration}</Text>
+      <Text style={styles.tempText}>{String(calibration)}</Text>
     </View>
   )
 }
