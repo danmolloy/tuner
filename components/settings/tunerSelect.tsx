@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     ...globalStyles.settingsContainer,
 
         fontFamily: typography.fontBold,
-        backgroundColor: colors.buttonPanelTeal,
+        backgroundColor: colors.backgroundCream,
     paddingHorizontal: 12,
     paddingVertical: 10,
     fontSize: 24,

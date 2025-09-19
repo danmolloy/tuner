@@ -24,8 +24,9 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     ...globalStyles.pageView,
-    backgroundColor: colors.backgroundRed,
+    backgroundColor: colors.meterPanelYellow,
     height: Dimensions.get("window").height,
+   paddingBottom: 100
   },
   headerText: {
     ...globalStyles.headerText,

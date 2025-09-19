@@ -17,7 +17,7 @@ import {
 
 const ITEM_WIDTH = 60; 
 const COMPONENT_WIDTH = ITEM_WIDTH * 3;
-const CENTER_OFFSET = (COMPONENT_WIDTH - ITEM_WIDTH) / 2 - 5; // -2 for border offset!
+const CENTER_OFFSET = (COMPONENT_WIDTH - ITEM_WIDTH) / 2 - 3; // -3 for border offset!
 const BUFFER_MULTIPLIER = 20; // Number of repetitions for infinite effect
 const NOTE_COUNT = noteNames.length;
 

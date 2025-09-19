@@ -2,7 +2,7 @@
   "expo": {
     "name": "chromatic-tuner",
     "slug": "chromatic-tuner",
-    "version": "1.0.2",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/tuner-icon.png",
     "scheme": "chromatictuner",
@@ -11,9 +11,9 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.danmolloy.chromatictuner",
-      "buildNumber": "3",
+      "buildNumber": "6",
       "infoPlist": {
-        "NSMicrophoneUsageDescription": "This app uses the microphone to detect pitch."
+        "NSMicrophoneUsageDescription": "This app uses your microphone to detect and analyze pitch when tuning your instrument. For example, it listens to the pitch of each string and helps you tune your guitar accurately."
       }
     },
     "android": {

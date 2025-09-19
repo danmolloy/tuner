@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 24,
     fontFamily: typography.fontBold,
-    backgroundColor: colors.meterPanelYellow
+    backgroundColor: colors.backgroundCream
     
   },
 });

@@ -13,11 +13,15 @@
     "production": {
       "ios": {
         "developmentClient": false,
-      "distribution": "internal"
+              "distribution": "store"
       }
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "ascAppId": "6746412805"
+      }
+    }
   }
 }

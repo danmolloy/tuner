@@ -12,7 +12,6 @@ import { freqToNote, noteToFreq } from '@/lib/functions';
 import { useAppSettings } from '@/lib/hooks/useAppSettings';
 import { useAudioProcessor } from '@/lib/hooks/useAudioProcessor';
 import { borderWidths, colors, globalStyles, radii, spacing, typography } from '@/lib/themes';
-import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 
@@ -87,11 +86,11 @@ export default function HomeScreen() {
       ...globalStyles.pageView,
       flexDirection: "column",
       height: Dimensions.get("window").height,
-      backgroundColor: colors.backgroundRed,
+      backgroundColor: colors.backgroundBlue,
     }}>
       <View style={styles.indexContainer}>
         <View>
-          <View style={{
+          {/* <View style={{
             marginTop: -24,
     width: Dimensions.get("window").width,
     flexDirection: "column",
@@ -101,9 +100,18 @@ export default function HomeScreen() {
     source={require("../../assets/images/title.png")}
     contentFit="contain"
     style={{ width: 977/2.25, height: 134/2.25, }}
-  />    </View>
+  />    </View> */}
         <View style={{flexDirection: 'column',}}>
-       <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: -30, width: Dimensions.get("window").width}}>
+       <View style={{ 
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: -30, 
+        borderRadius: radii.sm,
+          paddingVertical: spacing.sm,
+                    borderColor: colors.black,
+                    borderWidth: borderWidths.md,
+        width: Dimensions.get("window").width * .95, backgroundColor: colors.backgroundCream}}>
        <Calibration />
        <Temperament />
         </View></View>
@@ -117,7 +125,7 @@ export default function HomeScreen() {
           paddingVertical: spacing.sm,
           borderRadius: radii.sm,
           borderColor: colors.black,
-          borderWidth: borderWidths.lg,
+          borderWidth: borderWidths.md,
           width: Dimensions.get('window').width * .95
         }}>
           <Octave tunerMode={tunerMode} note={note} setSelectedOctave={(arg) => setSelectedOctave(arg)} selectedOctave={selectedOctave}/>
@@ -197,7 +205,6 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontRegular,
     //flex: 1, 
     gap: spacing.md,
-    backgroundColor: colors.backgroundRed,
 zIndex: 0,
     flexDirection: 'column',
     justifyContent: 'space-evenly',

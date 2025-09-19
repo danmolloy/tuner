@@ -36,7 +36,7 @@ stopRecording: () => void;
       style={styles.pressable}
                  onPress={recording ? stopRecording : startRecording}
                >
-               <Fontisto name="power" size={24} color={recording ? colors.buttonRed : colors.backgroundCream} style={{ marginRight: 5, padding: 1}} />
+               <Fontisto name="power" size={24} color={recording ? colors.buttonRed : colors.textSecondary} style={{ marginRight: 5, padding: 1}} />
                </Pressable>}
                <ModeSwitch setTunerMode={(arg) => setTunerMode(arg)} stopRecording={() => stopRecording()} tunerMode={tunerMode} tunerType={tunerType} setPlayDrone={(arg) => setPlayDrone(arg)}/>
       {/* {tunerType === "Chromatic" && <Pressable onPress={() => {setTunerMode("Detect"); setPlayDrone(false);}}>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 
   },
   container: {
-    backgroundColor: colors.buttonPanelTeal,    
+    backgroundColor: colors.backgroundLight,    
     //borderColor: colors.backgroundPanel,
     //borderWidth: 2,
     width: Dimensions.get('window').width * .95,
@@ -85,6 +85,6 @@ const styles = StyleSheet.create({
 borderRadius: radii.sm,
           paddingVertical: spacing.sm,
                     borderColor: colors.black,
-                    borderWidth: borderWidths.lg,
+                    borderWidth: borderWidths.md,
   }
 })

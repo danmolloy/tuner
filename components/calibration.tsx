@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   tempText: {
     color: colors.black,
     fontSize: typography.fontSize.lg,
-    fontFamily: typography.fontExtraBold,
+    fontFamily: typography.fontBold,
     textAlign: 'center'
   }
 })

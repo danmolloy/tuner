@@ -17,6 +17,7 @@ export const colors = {
   textSecondary: "#a8dadc", // Less important text
 
   backgroundRed: "#F44336",
+  backgroundBlue: "#1690F3",
   meterPanelYellow: "#FDD421",
   buttonPanelTeal: "#23BDD1",
   accentBlue: "#1690F3",
@@ -42,11 +43,11 @@ export const spacing = {
 };
 
 export const typography = {
-   fontRegular: "PlaypenSans_400Regular",
-      fontMedium: "PlaypenSans_500Medium",
-      fontSemiBold:"PlaypenSans_600SemiBold",
-  fontBold: "PlaypenSans_700Bold",
-  fontExtraBold: "PlaypenSans_800ExtraBold",
+   fontRegular: "Roboto_400Regular",
+      fontMedium: "Roboto_500Medium",
+      fontSemiBold:"Roboto_600SemiBold",
+  fontBold: "Roboto_700Bold",
+  fontExtraBold: "Roboto_800ExtraBold",
   fontSize: {
     sm: 12,
     md: 16,
@@ -109,7 +110,7 @@ export const globalStyles = StyleSheet.create({
     panelInner: {
       width: '100%',
       backgroundColor: colors.white, 
-      borderWidth: borderWidths.lg,
+      borderWidth: borderWidths.md,
       borderColor: colors.black,
       borderRadius: radii.sm
       //borderTopColor: '#f0f0f0',
@@ -141,12 +142,12 @@ export const globalStyles = StyleSheet.create({
 
     paddingHorizontal: 16,
     borderColor: colors.black,
-    borderWidth: borderWidths.lg    
+    borderWidth: borderWidths.md    
 
   },
   settingsLabel: {
     fontSize: typography.fontSize.lg,
-    fontFamily: typography.fontBold,
+    fontFamily: typography.fontSemiBold,
     marginVertical: 4,
   }
 })

@@ -26,6 +26,6 @@ const styles = StyleSheet.create({
 
           color: colors.black,
 fontSize: typography.fontSize.lg,
-    fontFamily: typography.fontExtraBold,    textAlign: 'center'
+    fontFamily: typography.fontBold,    textAlign: 'center'
   }
 })
