@@ -1,50 +1,38 @@
-# Welcome to your Expo app 👋
+# Chromatic Tuner
+## Overview
+Chromatic Tuner is a professional-grade mobile tuner for musicians, built with React Native and Expo. It supports alternative temperaments, custom calibration, historic and instrument-specific tunings. The interface includes an analog-style tuning needle for precise feedback and a drone generator for ear training.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This project demonstrates mobile architecture using Expo EAS, and a focus on both usability and accessibility.
 
-## Get started
+## Features
+### User Experience
+* Alternative & Historic Temperaments: User preferences saved in local storage.
+* Analog-Style Needle: Smooth, interactive tuning display.
+* Custom Calibration – Adjustable A4 frequency (415–450 Hz).
+* Drone Function – Continuous tone generator for practice and intonation.
+* Wide Pitch Detection Range – Supports C1–C8.
+* Accessible UI – Designed with inclusive navigation and contrast in mind.
 
-1. Install dependencies
+## Technical Highlights
+* **Pitch Detection**: High-accuracy input analysis with the Pitchy library.
+* **Audio Processing**: Powered by Expo AV for real-time performance.
+* **Drone Generator**: Implemented using Tone.js.
+* **Native Deployment**: Expo EAS workflow and App Store distribution.
 
-   ```bash
-   npm install
-   ```
+### Technology
+* **Framework & Language**: React Native, TypeScript
+* **Tooling & Deployment**: Expo, Expo EAS
+* **Audio Libraries**: Expo AV, Pitchy, Tone.js
+* **State & Storage**: Local storage for preferences and user settings
+* **Distribution**: Expo builds, App Store
+  
+## Under Development
+* Refined component architecture
+* Test coverage with Jest and Playwright
+* CI/CD pipelines 
 
-2. Start the app
+## License
+Please respect the intellectual property and don't use this code for commercial purposes without permission.
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Credits
+Designed and developed by Daniel Molloy.
